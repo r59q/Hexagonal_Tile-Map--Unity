@@ -6,90 +6,93 @@ namespace HexaMap
 {
     public class Tile
     {
+        GameObject gameObject;
+
         TileData data;
         TileBehaviour behaviour;
 
-        GameObject gameObject;
+        Vector2 index;
 
         Vector3 position;
-
-        Vector2 index;
+        float height;
 
         MapGenerator generator;
 
-        float height;
 
         public Tile(TileData tiledata,Vector3 pos, float heightOffset, MapGenerator mapGenerator, Vector2 gridIndex)
         {
-            data = tiledata;
-            position = pos;
-            height = heightOffset;
-            generator = mapGenerator;
-            index = gridIndex;
+            GrabVariables(tiledata,pos,heightOffset,mapGenerator,gridIndex);
 
-
-            position = new Vector3(
-                position.x,
-                position.y + height,
-                position.z);
-
-            gameObject = GameObject.Instantiate(tiledata.prefab, position, Quaternion.Euler(Vector3.zero));
-
-            behaviour = gameObject.GetComponent<TileBehaviour>();
-            behaviour.Initialize(data,this);
+            Debug.Log(behaviour);
 
             if (behaviour == null)
             {
-                Debug.Log("<color=olive>Warning! Could not find TileBehaviour</color>\n"+
+                Debug.Log("<color=blue>Notice: Could not find TileBehaviour</color>\n"+
                     "Have you forgotten to add one on the prefab?");
+            } else
+            {
+                behaviour.Initialize(data, this);
+
             }
         }
 
+        // Relative height to grid space
         public float Height()
         {
             return height;
         }
-
-        
-
         public void Height(float newHeight)
         {
-
+            // set new height
             height = newHeight;
 
-            /*
-            position = new Vector3(
-                generator.GetPos(this).x,
-                generator.GetPos(this).y + height,
-                generator.GetPos(this).z);
-            BAD PERFORMANCE, BUT POSSIBLE
-            */
-
+            // change position
             position = new Vector3(
                 generator.GetPos(index).x,
                 generator.GetPos(index).y + height,
                 generator.GetPos(index).z);
 
+            // update object's position
             gameObject.transform.position = position;
         }
 
+        // relative height to world space
         public float WorldHeight()
         {
             return gameObject.transform.position.y;
         }
-
         public void WorldHeight(float newHeight)
         {
+            // Grab the original height
             float originalHeight = GameManager.instance.transform.position.y;
-
+            
+            // set position
             gameObject.transform.position = position = new Vector3(
                 position.x,
                 newHeight,
                 position.z);
 
+            // grab new height and determine what our relative height should be.
             float nHeight = WorldHeight();
             height = originalHeight + nHeight;
 
+        }
+
+        //For local use
+        void GrabVariables(TileData tiledata, Vector3 pos, float heightOffset, MapGenerator mapGenerator, Vector2 gridIndex)
+        {
+            // Initialize and grab all the needed variables
+            data = tiledata;
+            position = pos;
+            height = heightOffset;
+            generator = mapGenerator;
+            index = gridIndex;
+            position = new Vector3(
+                position.x,
+                position.y + height,
+                position.z);
+            gameObject = GameObject.Instantiate(tiledata.prefab, position, Quaternion.Euler(Vector3.zero));
+            behaviour = gameObject.GetComponent<TileBehaviour>();
         }
 
     }

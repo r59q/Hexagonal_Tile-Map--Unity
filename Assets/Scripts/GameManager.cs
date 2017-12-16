@@ -22,6 +22,11 @@ namespace HexaMap {
         {
             // Initialize below
             mapHandler = GetComponent<MapGenerator>();
+            if (mapHandler == null)
+            {
+                throw new System.Exception("No map generator found!\nOne must be added to the 'GameManager' object!");
+            }
+            // generate level
             mapHandler.Build();
         }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HexaMap
+namespace HexaMap.Generators
 {
     public class SimpleGenerator : MapGenerator
     {
@@ -15,14 +15,19 @@ namespace HexaMap
             {
                 for (int k = 0; k < mapSize.y; k++)
                 {
-                    // make a new tile position
-                    Vector2 pos = new Vector2(i, k);
-
-                    // create the tile. Upon creation it will instantiate itself
-                    tileMap[i, k] = new Tile(tileData , GetPos(pos) , heightOffset , this,new Vector2(i,k));
+                    Spawn(i, k);
                 }
             }
 
+        }
+
+        protected virtual void Spawn(int i, int k)
+        {
+            // make a new tile position
+            Vector2 pos = new Vector2(i, k);
+
+            // create the tile. Upon creation it will instantiate itself
+            tileMap[i, k] = new Tile(tileData, GetPos(pos), heightOffset, this, new Vector2(i, k));
         }
     }
 }
