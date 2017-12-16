@@ -2,33 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour {
+namespace HexaMap { 
+    public class GameManager : MonoBehaviour {
 
-    public static GameManager instance = null;
+        public static GameManager instance = null;
 
-    MapHandler mapHandler;
+        MapHandler mapHandler;
 
-	// Use this for initialization
-	void Awake () {
-        mapHandler = GetComponent<MapHandler>();     
-        if (instance == null)
-        {
-            instance = this;
-        } else
-        {
-            Destroy(gameObject);
+	    // Use this for initialization
+	    void Awake () {
+            // Making singleton
+            if (!CreateSingleton())
+                Destroy(gameObject);
+            else
+                DontDestroyOnLoad(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
+
+        private void Start()
+        {
+            // Initialize below
+            mapHandler = GetComponent<MapHandler>();
+            mapHandler.BuildMap();
+        }
+
+        public MapHandler MapHandler()
+        {
+            return mapHandler;
+        }
+
+        bool CreateSingleton()
+        {
+            if (instance == null)
+            {
+                instance = this;
+                return true;
+            }
+            return false;
+        }
     }
-
-    private void Start()
-    {
-        mapHandler.BuildMap();
-
-    }
-
-    // Update is called once per frame
-    void Update () {
-		
-	}
 }

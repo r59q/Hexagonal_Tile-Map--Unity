@@ -2,63 +2,91 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapHandler : MonoBehaviour {
-
-    public GameObject tilePrefab;
-
-    public Vector2 mapSize;
-    public float sideWidth;
-
-    float tileWidth;
-    float tileHeight;
-
-    float constant = 0.866f;
-
-    private void Start()
-    {
-        tileHeight = 2 * sideWidth;
-        tileWidth = 2 * (sideWidth * constant);
-    }
-
-    public void BuildMap()
+namespace HexaMap
+{
+    public class MapHandler : MonoBehaviour
     {
 
-        for (int i = 0; i < mapSize.x; i++)
+        public TileData tileData;
+
+        public Vector2 mapSize;
+        public float sideWidth;
+        public float gap = 0;
+
+        Tile[,] tileMap;
+
+        float tileWidth;
+        float tileHeight;
+
+        // the width multiplier
+        float constant = 0.866f;
+
+        private void Start()
         {
-            for (int k = 0; k < mapSize.y; k++)
+            // sets variables like tilewidth and tileheight
+            Initialize();
+        }
+
+        public void BuildMap()
+        {
+            // Loop through all tiles
+            for (int i = 0; i < mapSize.x; i++)
             {
+                for (int k = 0; k < mapSize.y; k++)
+                { 
+                    // make a new tile position
+                    Vector2 pos = new Vector2(i, k);
 
-                Vector2 pos = new Vector2(i, k);
-
-                Instantiate( tilePrefab , GetPos(pos) , Quaternion.Euler(Vector3.zero) );
-
-                print(i + "-" + k);
-
+                    // create the tile. Upon creation it will instantiate itself
+                    tileMap[i, k] = new Tile(tileData, GetPos(pos));
+                }
             }
         }
 
-    }
-
-    Vector3 GetPos(Vector2 pos)
-    {
-
-        Vector3 originalPos = transform.position;
-
-        float offset;
-
-        if (pos.y % 2 == 0)
+        public Tile Tile(Vector2 position)
         {
-            offset = tileWidth / 2;
-        } else
+            return tileMap[(int)position.x,(int)position.y];
+        }
+        
+        public Tile Tile(int x, int y)
         {
-            offset = 0;
+            return tileMap[x, y];
         }
 
+        Vector3 GetPos(Vector2 tile)
+        {
+            Vector3 originalPos = transform.position;
 
-        Vector3 result = new Vector3((originalPos.x + ((tileWidth)*pos.x ))+offset, originalPos.y, originalPos.z + (((sideWidth /2)*3)*pos.y));
+            float offset;
 
-        return result;
+            if (tile.y % 2 == 0)
+            {
+                offset = tileWidth / 2;
+            }
+            else
+            {
+                offset = 0;
+            }
+
+            float x = (originalPos.x + (((tileWidth)+gap) * tile.x)) + offset;
+            // we convert y to z, because we are goin on a horizontal plane
+            float z = originalPos.z + ((((sideWidth / 2) * 3)+gap) * tile.y);
+
+            Vector3 result = new Vector3(x,
+                originalPos.y,
+                z);
+
+            return result;
+        }
+
+        void Initialize()
+        {
+            tileMap = new Tile[(int)mapSize.x,(int)mapSize.y];
+
+
+            tileHeight = 2 * sideWidth;
+            tileWidth = 2 * (sideWidth * constant);
+        }
 
     }
-
 }
