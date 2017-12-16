@@ -6,8 +6,20 @@ namespace HexaMap
 {
     public abstract class TileBehaviour : MonoBehaviour
     {
-
         TileData tile = null;
+
+        private void Start()
+        {
+            
+        }
+
+        private void Update()
+        {
+            if (tile != null)
+            {
+                OnUpdate();
+            }
+        }
 
         public void Initialize(TileData tileData)
         {
@@ -20,13 +32,7 @@ namespace HexaMap
             }
         }
 
-        private void Update()
-        {
-            if (tile != null)
-            {
-                OnUpdate();
-            }
-        }
+
 
         protected abstract void OnInitialize();
         protected abstract void OnUpdate();

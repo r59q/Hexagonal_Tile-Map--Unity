@@ -7,7 +7,7 @@ namespace HexaMap {
 
         public static GameManager instance = null;
 
-        MapHandler mapHandler;
+        MapGenerator mapHandler;
 
 	    // Use this for initialization
 	    void Awake () {
@@ -21,11 +21,11 @@ namespace HexaMap {
         private void Start()
         {
             // Initialize below
-            mapHandler = GetComponent<MapHandler>();
-            mapHandler.BuildMap();
+            mapHandler = GetComponent<MapGenerator>();
+            mapHandler.Build();
         }
 
-        public MapHandler MapHandler()
+        public MapGenerator MapHandler()
         {
             return mapHandler;
         }

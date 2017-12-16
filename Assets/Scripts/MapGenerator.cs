@@ -4,16 +4,13 @@ using UnityEngine;
 
 namespace HexaMap
 {
-    public class MapHandler : MonoBehaviour
+    public abstract class MapGenerator : MonoBehaviour
     {
-
-        public TileData tileData;
-
         public Vector2 mapSize;
         public float sideWidth;
         public float gap = 0;
 
-        Tile[,] tileMap;
+        protected Tile[,] tileMap;
 
         float tileWidth;
         float tileHeight;
@@ -27,21 +24,7 @@ namespace HexaMap
             Initialize();
         }
 
-        public void BuildMap()
-        {
-            // Loop through all tiles
-            for (int i = 0; i < mapSize.x; i++)
-            {
-                for (int k = 0; k < mapSize.y; k++)
-                { 
-                    // make a new tile position
-                    Vector2 pos = new Vector2(i, k);
-
-                    // create the tile. Upon creation it will instantiate itself
-                    tileMap[i, k] = new Tile(tileData, GetPos(pos));
-                }
-            }
-        }
+        public abstract void Build();
 
         public Tile Tile(Vector2 position)
         {
@@ -53,7 +36,7 @@ namespace HexaMap
             return tileMap[x, y];
         }
 
-        Vector3 GetPos(Vector2 tile)
+        protected Vector3 GetPos(Vector2 tile)
         {
             Vector3 originalPos = transform.position;
 
@@ -72,9 +55,7 @@ namespace HexaMap
             // we convert y to z, because we are goin on a horizontal plane
             float z = originalPos.z + ((((sideWidth / 2) * 3)+gap) * tile.y);
 
-            Vector3 result = new Vector3(x,
-                originalPos.y,
-                z);
+            Vector3 result = new Vector3(x , originalPos.y , z);
 
             return result;
         }
@@ -82,7 +63,6 @@ namespace HexaMap
         void Initialize()
         {
             tileMap = new Tile[(int)mapSize.x,(int)mapSize.y];
-
 
             tileHeight = 2 * sideWidth;
             tileWidth = 2 * (sideWidth * constant);
