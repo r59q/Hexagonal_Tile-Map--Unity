@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 namespace HexaMap
@@ -9,6 +10,7 @@ namespace HexaMap
         public Vector2 mapSize;
         public float sideWidth;
         public float gap = 0;
+        public float heightOffset;
 
         protected Tile[,] tileMap;
 
@@ -36,7 +38,7 @@ namespace HexaMap
             return tileMap[x, y];
         }
 
-        protected Vector3 GetPos(Vector2 tile)
+        public Vector3 GetPos(Vector2 tile)
         {
             Vector3 originalPos = transform.position;
 
@@ -58,6 +60,24 @@ namespace HexaMap
             Vector3 result = new Vector3(x , originalPos.y , z);
 
             return result;
+        }
+
+        /// <summary>
+        /// Not good performance
+        /// </summary>
+        public Vector3 GetPos(Tile tile)
+        {
+            for (int i = 0; i < mapSize.x; i++)
+            {
+                for (int k = 0; k < mapSize.y; k++)
+                {
+                    if (tileMap[i,k] == tile)
+                    {
+                        return GetPos(new Vector2(i, k));
+                    }
+                }
+            }
+            return Vector3.zero;
         }
 
         void Initialize()

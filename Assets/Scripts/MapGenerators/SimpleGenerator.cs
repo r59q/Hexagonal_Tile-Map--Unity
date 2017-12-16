@@ -8,8 +8,6 @@ namespace HexaMap
     {
         public TileData tileData;
 
-        public float heightOffset;
-
         public override void Build()
         {
             // Loop through all tiles
@@ -21,7 +19,7 @@ namespace HexaMap
                     Vector2 pos = new Vector2(i, k);
 
                     // create the tile. Upon creation it will instantiate itself
-                    tileMap[i, k] = new Tile(tileData , GetPos(pos) , heightOffset);
+                    tileMap[i, k] = new Tile(tileData , GetPos(pos) , heightOffset , this,new Vector2(i,k));
                 }
             }
 

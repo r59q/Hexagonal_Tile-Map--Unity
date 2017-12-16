@@ -141,11 +141,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdf1838b7e8388f40b0239162bedd08e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapSize: {x: 10, y: 10}
+  mapSize: {x: 50, y: 50}
   sideWidth: 1
   gap: 0.08
+  heightOffset: 0
   tileData: {fileID: 11400000, guid: 3762a3900e9182c4484e4ba6fee203a6, type: 2}
-  height: 0
 --- !u!114 &72573866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,7 +244,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1431916000}
   m_LocalRotation: {x: 0.37664047, y: -0, z: -0, w: 0.92635953}
-  m_LocalPosition: {x: 0, y: 14.92, z: -10}
+  m_LocalPosition: {x: 43.03, y: 14.92, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
