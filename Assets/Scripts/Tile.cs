@@ -22,18 +22,6 @@ namespace HexaMap
         public Tile(TileData tiledata,Vector3 pos, float heightOffset, MapGenerator mapGenerator, Vector2 gridIndex)
         {
             GrabVariables(tiledata,pos,heightOffset,mapGenerator,gridIndex);
-
-            Debug.Log(behaviour);
-
-            if (behaviour == null)
-            {
-                Debug.Log("<color=blue>Notice: Could not find TileBehaviour</color>\n"+
-                    "Have you forgotten to add one on the prefab?");
-            } else
-            {
-                behaviour.Initialize(data, this);
-
-            }
         }
 
         // Relative height to grid space
@@ -78,6 +66,56 @@ namespace HexaMap
 
         }
 
+        // Set and get tile
+        public TileData GetTileData()
+        {
+            return data;
+        }
+        public void SetTileData(TileData newData)
+        {
+            if (gameObject == null)
+            {
+                data = newData;
+            }
+            else
+            {
+                Debug.Log("<color=olive>Warning! Could not set new TileData</color>\n" +
+                    "Tile already exists and is instantiated. There is no point");
+            }
+        }
+
+        public GameObject GetGameObject()
+        {
+            return gameObject;
+        }
+
+        public GameObject Spawn()
+        {
+
+            if (gameObject == null)
+            {
+                gameObject = GameObject.Instantiate(data.prefab, position, Quaternion.Euler(Vector3.zero));
+
+                behaviour = gameObject.GetComponent<TileBehaviour>();
+
+                if (behaviour == null)
+                {
+                    Debug.Log("<color=blue>Notice: Could not find TileBehaviour</color>\n" +
+                        "Have you forgotten to add one on the prefab?");
+                }
+                else
+                {
+                    behaviour.Initialize(data, this);
+                }
+            }
+            else
+            {
+                Debug.Log("<color=olive>Warning! Could not spawn tile</color>\n"+
+                    "Tile already exists and is instantiated");
+            }
+            return gameObject;
+        }
+
         //For local use
         void GrabVariables(TileData tiledata, Vector3 pos, float heightOffset, MapGenerator mapGenerator, Vector2 gridIndex)
         {
@@ -91,9 +129,6 @@ namespace HexaMap
                 position.x,
                 position.y + height,
                 position.z);
-            gameObject = GameObject.Instantiate(tiledata.prefab, position, Quaternion.Euler(Vector3.zero));
-            behaviour = gameObject.GetComponent<TileBehaviour>();
         }
-
     }
 }

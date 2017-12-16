@@ -23,11 +23,11 @@ namespace HexaMap.Generators
 
         protected virtual void Spawn(int i, int k)
         {
-            // make a new tile position
-            Vector2 pos = new Vector2(i, k);
+            // make a new tile index
+            Vector2 index = new Vector2(i, k);
 
             // create the tile. Upon creation it will instantiate itself
-            tileMap[i, k] = new Tile(tileData, GetPos(pos), heightOffset, this, new Vector2(i, k));
+            tileMap[i, k] = new Tile(tileData, GetPos(index), heightOffset, this, new Vector2(i, k));
         }
     }
 }
