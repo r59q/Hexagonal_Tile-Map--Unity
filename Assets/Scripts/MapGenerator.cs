@@ -17,6 +17,8 @@ namespace HexaMap
 
         protected Tile[,] tileMap;
 
+        protected int tileCount;
+
         float tileWidth;
         float tileHeight;
 
@@ -27,6 +29,7 @@ namespace HexaMap
         {
             // sets variables like tilewidth and tileheight
             Initialize();
+            tileCount = (int)(mapSize.x * mapSize.y);
         }
 
         public abstract void Build();
@@ -38,6 +41,16 @@ namespace HexaMap
         }
         public Tile Tile(int x, int y)
         {
+
+            if (x < 0 || x >= mapSize.x)
+            {
+                return null;
+            }
+
+            if (y < 0 || y >= mapSize.y)
+            {
+                return null;
+            }
             return tileMap[x, y];
         }
 
@@ -83,7 +96,6 @@ namespace HexaMap
             }
             return Vector3.zero;
         }
-
 
         // For local use
         void Initialize()

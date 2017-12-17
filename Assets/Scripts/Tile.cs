@@ -18,7 +18,6 @@ namespace HexaMap
 
         MapGenerator generator;
 
-
         public Tile(TileData tiledata,Vector3 pos, float heightOffset, MapGenerator mapGenerator, Vector2 gridIndex)
         {
             GrabVariables(tiledata,pos,heightOffset,mapGenerator,gridIndex);
@@ -89,7 +88,7 @@ namespace HexaMap
             return gameObject;
         }
 
-        public GameObject Spawn()
+        public GameObject Instantiate()
         {
 
             if (gameObject == null)
@@ -114,6 +113,47 @@ namespace HexaMap
                     "Tile already exists and is instantiated");
             }
             return gameObject;
+        }
+
+        public Tile[] Neighbours ()
+        {
+            List<Tile> result = new List<Tile>();
+
+            // same row
+            result = AddNeighbour(generator.Tile((int)index.x - 1, (int)index.y), result);
+            result = AddNeighbour(generator.Tile((int)(index.x + 1), (int)index.y), result);
+
+            if (index.y % 2 == 0)
+            {
+                // Upper row
+                result = AddNeighbour(generator.Tile((int)(index.x - 1), (int)(index.y - 1)), result);
+                result = AddNeighbour(generator.Tile((int)(index.x), (int)(index.y - 1)), result);
+
+                // lower row
+                result = AddNeighbour(generator.Tile((int)(index.x - 1), (int)(index.y + 1)), result);
+                result = AddNeighbour(generator.Tile((int)(index.x), (int)(index.y + 1)), result);
+            }
+            else
+            {
+                // Upper row
+                result = AddNeighbour(generator.Tile((int)(index.x + 1), (int)(index.y - 1)), result);
+                result = AddNeighbour(generator.Tile((int)(index.x), (int)(index.y - 1)), result);
+
+                // lower row
+                result = AddNeighbour(generator.Tile((int)(index.x + 1), (int)(index.y + 1)), result);
+                result = AddNeighbour(generator.Tile((int)(index.x), (int)(index.y + 1)), result);
+
+            }
+
+            return result.ToArray();
+        }
+
+        List<Tile> AddNeighbour(Tile neighbour,List<Tile> list)
+        {
+            if (neighbour != null) { 
+                list.Add(neighbour);
+            }
+            return list;
         }
 
         //For local use

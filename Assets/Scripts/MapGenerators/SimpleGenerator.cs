@@ -18,6 +18,27 @@ namespace HexaMap.Generators
                     Spawn(i, k);
                 }
             }
+            OnInitialized();
+        }
+    
+        protected void InstantiateAll()
+        {
+            for (int i = 0; i < mapSize.x; i++)
+            {
+                for (int k = 0; k < mapSize.y; k++)
+                {
+                    tileMap[i, k].Instantiate();
+                }
+            }
+        }
+
+        protected void InstantiateTile(Tile tile)
+        {
+            tile.Instantiate();
+        }
+
+        protected virtual void OnInitialized()
+        {
 
         }
 

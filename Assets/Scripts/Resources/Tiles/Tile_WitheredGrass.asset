@@ -9,6 +9,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b1973c4bb0f18044a91b66baed6c621, type: 3}
-  m_Name: GrassTile
+  m_Name: Tile_WitheredGrass
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1976973084004954, guid: c17e67b5ead512d448984df5e2a7d061, type: 2}
+  prefab: {fileID: 1598139660317040, guid: 8a56bf5038c5d144a84f3b065505a1f7, type: 2}

@@ -142,10 +142,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapSize: {x: 50, y: 50}
+  heightOffset: 0
   sideWidth: 1
   gap: 0.1
-  heightOffset: 0
   tileData: {fileID: 11400000, guid: 59d874535d7f16444bdc83aa9eb42bc9, type: 2}
+  biomes:
+  - {fileID: 11400000, guid: 017cff9ceab256f4e811236afd4845b2, type: 2}
 --- !u!114 &72573866
 MonoBehaviour:
   m_ObjectHideFlags: 0

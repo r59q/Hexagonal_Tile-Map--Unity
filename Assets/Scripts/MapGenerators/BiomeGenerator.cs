@@ -8,15 +8,25 @@ namespace HexaMap.Generators
 
         public BiomeData[] biomes;
 
-        protected override void Spawn(int i, int k)
-        {
-            base.Spawn(i, k);
-            Tile currentTile = tileMap[i, k];
-        }
 
-        TileData GetTileData()
+        // For when all tiles have been loaded
+        protected override void OnInitialized()
         {
-            return null;
+            int biomeTileCount = biomes.Length / tileCount;
+            foreach (BiomeData data in biomes)
+            {
+                
+            }
+
+            for (int i = 0; i < mapSize.x; i++)
+            {
+                for (int k = 0; k < mapSize.y; k++)
+                {
+                    print (tileMap[i, k].Neighbours().Length);
+                }
+            }
+
+            InstantiateAll();
         }
 
     }
