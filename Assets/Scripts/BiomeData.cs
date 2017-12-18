@@ -8,6 +8,7 @@ namespace HexaMap
     public class BiomeData : ScriptableObject
     {
         public TileData[] tiles;
+        public float multiplier = 1;
 
     }
 }

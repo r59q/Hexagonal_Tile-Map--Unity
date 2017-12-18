@@ -83,6 +83,21 @@ namespace HexaMap
             }
         }
 
+        public Vector2 Index()
+        {
+            return index;
+        }
+
+        public MapGenerator Generator()
+        {
+            return generator;
+        }
+
+        public void Generator(MapGenerator newGenerator)
+        {
+            generator = newGenerator;
+        }
+
         public GameObject GetGameObject()
         {
             return gameObject;

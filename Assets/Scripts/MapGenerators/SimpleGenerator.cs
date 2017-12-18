@@ -6,7 +6,7 @@ namespace HexaMap.Generators
 {
     public class SimpleGenerator : MapGenerator
     {
-        public TileData tileData;
+        public TileData baseTileData;
 
         public override void Build()
         {
@@ -32,6 +32,9 @@ namespace HexaMap.Generators
             }
         }
 
+        /// <summary>
+        /// Obsolete : Use Tile.Instantiate() instead.
+        /// </summary>
         protected void InstantiateTile(Tile tile)
         {
             tile.Instantiate();
@@ -48,7 +51,39 @@ namespace HexaMap.Generators
             Vector2 index = new Vector2(i, k);
 
             // create the tile. Upon creation it will instantiate itself
-            tileMap[i, k] = new Tile(tileData, GetPos(index), heightOffset, this, new Vector2(i, k));
+            tileMap[i, k] = new Tile(baseTileData, GetPos(index), heightOffset, this, new Vector2(i, k));
         }
+
+        protected bool IsGenerated(Tile[,] map)
+        {
+            // check
+            bool check = true;
+            for (int i = 0; i < mapSize.x; i++)
+            {
+                for (int k = 0; k < mapSize.y; k++)
+                {
+                    if (map[i, k].GetTileData() == baseTileData)
+                    {
+                        check = false;
+                        break;
+                    }
+                }
+                if (check == false)
+                {
+                    break;
+                }
+            }
+
+            // return
+            if (check)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

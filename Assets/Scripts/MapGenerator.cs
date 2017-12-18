@@ -106,5 +106,6 @@ namespace HexaMap
             tileWidth = 2 * (sideWidth * constant);
         }
 
+
     }
 }
