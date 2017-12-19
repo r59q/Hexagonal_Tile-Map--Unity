@@ -11,9 +11,9 @@ namespace HexaMap.Generators
         public override void Build()
         {
             // Loop through all tiles
-            for (int i = 0; i < mapSize.x; i++)
+            for (int i = 0; i < tileMap.size.x; i++)
             {
-                for (int k = 0; k < mapSize.y; k++)
+                for (int k = 0; k < tileMap.size.y; k++)
                 {
                     Spawn(i, k);
                 }
@@ -23,11 +23,11 @@ namespace HexaMap.Generators
     
         protected void InstantiateAll()
         {
-            for (int i = 0; i < mapSize.x; i++)
+            for (int i = 0; i < tileMap.size.x; i++)
             {
-                for (int k = 0; k < mapSize.y; k++)
+                for (int k = 0; k < tileMap.size.y; k++)
                 {
-                    tileMap[i, k].Instantiate();
+                    tileMap.Map()[i, k].Instantiate();
                 }
             }
         }
@@ -45,22 +45,23 @@ namespace HexaMap.Generators
 
         }
 
+        // For making Tile objects, not instantiating prefabs
         protected virtual void Spawn(int i, int k)
         {
             // make a new tile index
             Vector2 index = new Vector2(i, k);
 
             // create the tile. Upon creation it will instantiate itself
-            tileMap[i, k] = new Tile(baseTileData, GetPos(index), heightOffset, this, new Vector2(i, k));
+            tileMap.Map()[i, k] = new Tile(baseTileData, tileMap.GetPos(index), tileMap.heightOffset, this, new Vector2(i, k));
         }
 
         protected bool IsGenerated(Tile[,] map)
         {
             // check
             bool check = true;
-            for (int i = 0; i < mapSize.x; i++)
+            for (int i = 0; i < tileMap.size.x; i++)
             {
-                for (int k = 0; k < mapSize.y; k++)
+                for (int k = 0; k < tileMap.size.y; k++)
                 {
                     if (map[i, k].GetTileData() == baseTileData)
                     {

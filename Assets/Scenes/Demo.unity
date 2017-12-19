@@ -141,10 +141,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eecb2e294bed52b46a9941928ccd58b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapSize: {x: 10, y: 10}
-  heightOffset: 0
-  sideWidth: 1
-  gap: 0.1
+  tileMap:
+    size: {x: 50, y: 50}
+    heightOffset: 0
+    sideWidth: 1
+    gap: 0.1
   baseTileData: {fileID: 11400000, guid: 3762a3900e9182c4484e4ba6fee203a6, type: 2}
   biomes:
   - {fileID: 11400000, guid: 017cff9ceab256f4e811236afd4845b2, type: 2}

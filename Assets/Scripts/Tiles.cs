@@ -8,7 +8,7 @@ namespace HexaMap
         {
             return new Tile(
                 tileToCopy.GetTileData(),
-                tileToCopy.Generator().GetPos(tileToCopy.Index()),
+                tileToCopy.Generator().tileMap.GetPos(tileToCopy.Index()),
                 tileToCopy.Height(),
                 tileToCopy.Generator(),
                 tileToCopy.Index());

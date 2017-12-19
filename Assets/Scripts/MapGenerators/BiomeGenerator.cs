@@ -14,11 +14,11 @@ namespace HexaMap.Generators
         protected override void OnInitialized()
         {
 
-            tileMap = GenerateTileMap(tileMap, (int) mapSize.x, (int) mapSize.y);
+            tileMap.Map(GenerateTileMap(tileMap.Map(), (int)tileMap.size.x, (int)tileMap.size.y));
 
-            for (int i = 0; i < mapSize.x; i++)
+            for (int i = 0; i < tileMap.size.x; i++)
             {
-                for (int k = 0; k < mapSize.y; k++)
+                for (int k = 0; k < tileMap.size.y; k++)
                 {
                     // print (tileMap[i, k].Neighbours().Length);
                 }

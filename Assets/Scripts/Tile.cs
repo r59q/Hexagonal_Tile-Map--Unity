@@ -35,9 +35,9 @@ namespace HexaMap
 
             // change position
             position = new Vector3(
-                generator.GetPos(index).x,
-                generator.GetPos(index).y + height,
-                generator.GetPos(index).z);
+                generator.tileMap.GetPos(index).x,
+                generator.tileMap.GetPos(index).y + height,
+                generator.tileMap.GetPos(index).z);
 
             // update object's position
             gameObject.transform.position = position;
@@ -135,28 +135,28 @@ namespace HexaMap
             List<Tile> result = new List<Tile>();
 
             // same row
-            result = AddNeighbour(generator.Tile((int)index.x - 1, (int)index.y), result);
-            result = AddNeighbour(generator.Tile((int)(index.x + 1), (int)index.y), result);
+            result = AddNeighbour(generator.tileMap.Tile((int)index.x - 1, (int)index.y), result);
+            result = AddNeighbour(generator.tileMap.Tile((int)(index.x + 1), (int)index.y), result);
 
             if (index.y % 2 == 0)
             {
                 // Upper row
-                result = AddNeighbour(generator.Tile((int)(index.x - 1), (int)(index.y - 1)), result);
-                result = AddNeighbour(generator.Tile((int)(index.x), (int)(index.y - 1)), result);
+                result = AddNeighbour(generator.tileMap.Tile((int)(index.x - 1), (int)(index.y - 1)), result);
+                result = AddNeighbour(generator.tileMap.Tile((int)(index.x), (int)(index.y - 1)), result);
 
                 // lower row
-                result = AddNeighbour(generator.Tile((int)(index.x - 1), (int)(index.y + 1)), result);
-                result = AddNeighbour(generator.Tile((int)(index.x), (int)(index.y + 1)), result);
+                result = AddNeighbour(generator.tileMap.Tile((int)(index.x - 1), (int)(index.y + 1)), result);
+                result = AddNeighbour(generator.tileMap.Tile((int)(index.x), (int)(index.y + 1)), result);
             }
             else
             {
                 // Upper row
-                result = AddNeighbour(generator.Tile((int)(index.x + 1), (int)(index.y - 1)), result);
-                result = AddNeighbour(generator.Tile((int)(index.x), (int)(index.y - 1)), result);
+                result = AddNeighbour(generator.tileMap.Tile((int)(index.x + 1), (int)(index.y - 1)), result);
+                result = AddNeighbour(generator.tileMap.Tile((int)(index.x), (int)(index.y - 1)), result);
 
                 // lower row
-                result = AddNeighbour(generator.Tile((int)(index.x + 1), (int)(index.y + 1)), result);
-                result = AddNeighbour(generator.Tile((int)(index.x), (int)(index.y + 1)), result);
+                result = AddNeighbour(generator.tileMap.Tile((int)(index.x + 1), (int)(index.y + 1)), result);
+                result = AddNeighbour(generator.tileMap.Tile((int)(index.x), (int)(index.y + 1)), result);
 
             }
 
