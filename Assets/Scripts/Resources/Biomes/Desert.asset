@@ -11,8 +11,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c6eb4d0a85999e4780907586ab5f3c1, type: 3}
   m_Name: Desert
   m_EditorClassIdentifier: 
-  tiles:
-  - {fileID: 11400000, guid: b68cac155fe0be64988b28edf9dd31b2, type: 2}
-  - {fileID: 11400000, guid: 372a037f0352bc547a0a796a4233f344, type: 2}
-  - {fileID: 11400000, guid: 7a1e58bbbcf5abc46b37632fe0e9456c, type: 2}
+  biomeTileData:
+  - tile: {fileID: 11400000, guid: b68cac155fe0be64988b28edf9dd31b2, type: 2}
+    threshold: 0.6
+  - tile: {fileID: 11400000, guid: 372a037f0352bc547a0a796a4233f344, type: 2}
+    threshold: 0.3
+  - tile: {fileID: 11400000, guid: 7a1e58bbbcf5abc46b37632fe0e9456c, type: 2}
+    threshold: 0
   multiplier: 2

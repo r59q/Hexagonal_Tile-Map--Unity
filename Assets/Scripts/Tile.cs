@@ -30,6 +30,10 @@ namespace HexaMap
         }
         public void Height(float newHeight)
         {
+            if (gameObject == null)
+            {
+                throw new System.Exception("The GameObject you are trying to set the height of is not spawned yet!");
+            }
             // set new height
             height = newHeight;
 

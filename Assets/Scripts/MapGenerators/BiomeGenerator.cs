@@ -101,9 +101,9 @@ namespace HexaMap.Generators
 
             // will be removed, in use for testing purposes
             if (result[(int)originGridPos.x, (int)originGridPos.y].GetTileData() == baseTileData) {
-                 int random = UnityEngine.Random.Range(0, data.tiles.Length);
+                 int random = UnityEngine.Random.Range(0, data.biomeTileData.Length);
 
-                result[(int)originGridPos.x, (int)originGridPos.y].SetTileData(data.tiles[random]);
+                result[(int)originGridPos.x, (int)originGridPos.y].SetTileData(data.biomeTileData[random].tile);
 
             }
             //work
@@ -127,9 +127,9 @@ namespace HexaMap.Generators
                         }
                     }
 
-                    foreach (TileData tileData in biome.tiles)
+                    foreach (BiomeData.BiomeTileData tileData in biome.biomeTileData)
                     {
-                        if (neighbour.GetTileData() == tileData)
+                        if (neighbour.GetTileData() == tileData.tile)
                         {
                             //print("tileDataFound");
                             if (!nearbyBiomesList.Contains(biome)) {

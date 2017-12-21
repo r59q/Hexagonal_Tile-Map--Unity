@@ -7,7 +7,16 @@ namespace HexaMap
     [CreateAssetMenu (menuName = "New biome data asset")]
     public class BiomeData : ScriptableObject
     {
-        public TileData[] tiles;
+        [System.Serializable]
+        public class BiomeTileData
+        {
+            public TileData tile;
+            public float threshold;
+        }
+
+        public BiomeTileData[] biomeTileData;
+
+        
         public float multiplier = 1;
 
     }

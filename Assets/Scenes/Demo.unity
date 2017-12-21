@@ -142,14 +142,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileMapData:
-    size: {x: 50, y: 50}
+    size: {x: 100, y: 100}
     sideWidth: 1
     gap: 0
     heightOffset: 0
   baseTileData: {fileID: 11400000, guid: 8139023765457ba428f0958da9f3a8c9, type: 2}
-  maxHeight: 9
+  maxHeight: 50
   randomness: 10
-  noiseScale: 10.57
+  noiseScale: 48.6
+  biomeNoiseScale: 30.45
 --- !u!114 &72573866
 MonoBehaviour:
   m_ObjectHideFlags: 0

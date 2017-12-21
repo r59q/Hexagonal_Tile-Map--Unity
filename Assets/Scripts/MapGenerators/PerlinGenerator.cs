@@ -10,29 +10,76 @@ namespace HexaMap.Generators
         public float maxHeight = 3;
 
         public float randomness = 1;
+
+        [Tooltip("If noise scales are divisible by 1, they will become completely flat")]
         public float noiseScale = 15.2f;
+
+        [Tooltip("If noise scales are divisible by 1, they will become completely flat")]
+        public float biomeNoiseScale = 3.4f;
+
+        public BiomeData[] biomes;
 
         protected override void OnInitialized()
         {
             base.OnInitialized();
 
             // prework
-            float[,] noiseMap = GetNoiseMap((int)tileMap.size.x, (int)tileMap.size.y, noiseScale, randomness);
+            float[,] heightMap = GetNoiseMap((int)tileMap.size.x, (int)tileMap.size.y, noiseScale, randomness);
+            float[,] biomeMap = GetNoiseMap((int)tileMap.size.x, (int)tileMap.size.y, biomeNoiseScale, randomness);
 
             InstantiateAll();
 
             // work
             // give tiles height
-            SetTileHeights(noiseMap);
+            SetTileHeights(heightMap);
+
+            SetBiomes(biomeMap);
 
             // debugging
-            for (int x = 0; x < noiseMap.GetLength(0); x++)
+        }
+
+        void SetBiomes(float[,] noiseMap)
+        {
+            for (int x = 0; x < tileMap.size.x; x++)
             {
-                for (int y = 0; y < noiseMap.GetLength(1); y++)
+                for (int y = 0; y < tileMap.size.y; y++)
                 {
-                    //print(noiseMap[x, y]);
+                    Tile currentTile = tileMap.Tile(new Vector2(x, y));
+                    float noiseValue = noiseMap[x, y];
                 }
             }
+        }
+
+        BiomeData GetBiomeFromTile(Tile tile)
+        {
+            foreach (BiomeData biome in biomes)
+            {
+                foreach (BiomeData.BiomeTileData data in biome.biomeTileData)
+                {
+                    if (data.tile == tile.GetTileData())
+                    {
+                        return biome;
+                    }
+                }
+            }
+            return null;
+        }
+
+        float GetThresholdFromTile(Tile tile)
+        {
+            foreach (BiomeData biome in biomes)
+            {
+                foreach (BiomeData.BiomeTileData data in biome.biomeTileData)
+                {
+                    if (data.tile == tile.GetTileData())
+                    {
+                        return data.threshold;
+                    }
+                }
+            }
+            print("<color=olive>Warning! Couldn't find threshhold</color>\n"+
+                "Have you forgot to set the tiledata to a biome tile?");
+            return 1;
         }
 
         void SetTileHeights(float[,] noiseMap)
