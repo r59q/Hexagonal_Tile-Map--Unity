@@ -53,7 +53,7 @@ namespace HexaMap
         }
 
         // For grabbing the world space coordinates
-        public Vector3 GetPos(Vector2 tile)
+        public Vector3 GetWorldPos(Vector2 tile)
         {
             Vector3 originalPos = GameManager.instance.transform.position;
 
@@ -77,22 +77,9 @@ namespace HexaMap
             return result;
         }
 
-        /// <summary>
-        /// Not good performance. Use GetPos(Vector2 index) instead
-        /// </summary>
-        public Vector3 GetPos(Tile tile)
+        public Vector3 GetWorldPos(Tile tile)
         {
-            for (int i = 0; i < size.x; i++)
-            {
-                for (int k = 0; k < size.y; k++)
-                {
-                    if (map[i, k] == tile)
-                    {
-                        return GetPos(new Vector2(i, k));
-                    }
-                }
-            }
-            return Vector3.zero;
+            return GetWorldPos(tile.Index());
         }
 
         public Tile[,] Map() {

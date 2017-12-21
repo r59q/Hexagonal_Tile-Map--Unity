@@ -35,9 +35,9 @@ namespace HexaMap
 
             // change position
             position = new Vector3(
-                generator.tileMap.GetPos(index).x,
-                generator.tileMap.GetPos(index).y + height,
-                generator.tileMap.GetPos(index).z);
+                generator.tileMap.GetWorldPos(index).x,
+                generator.tileMap.GetWorldPos(index).y + height,
+                generator.tileMap.GetWorldPos(index).z);
 
             // update object's position
             gameObject.transform.position = position;
@@ -114,8 +114,8 @@ namespace HexaMap
 
                 if (behaviour == null)
                 {
-                    Debug.Log("<color=blue>Notice: Could not find TileBehaviour</color>\n" +
-                        "Have you forgotten to add one on the prefab?");
+                    //Debug.Log("<color=blue>Notice: Could not find TileBehaviour</color>\n" +
+                    //    "Have you forgotten to add one on the prefab?");
                 }
                 else
                 {

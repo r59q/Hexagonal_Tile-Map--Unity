@@ -52,7 +52,7 @@ namespace HexaMap.Generators
             Vector2 index = new Vector2(i, k);
 
             // create the tile. Upon creation it will instantiate itself
-            tileMap.Map()[i, k] = new Tile(baseTileData, tileMap.GetPos(index), tileMap.heightOffset, this, new Vector2(i, k));
+            tileMap.Map()[i, k] = new Tile(baseTileData, tileMap.GetWorldPos(index), tileMap.heightOffset, this, new Vector2(i, k));
         }
 
         protected bool IsGenerated(Tile[,] map)
