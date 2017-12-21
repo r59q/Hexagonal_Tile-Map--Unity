@@ -138,18 +138,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 72573864}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eecb2e294bed52b46a9941928ccd58b0, type: 3}
+  m_Script: {fileID: 11500000, guid: 343547e59c70194409a827a81b6c5a91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tileMap:
     size: {x: 50, y: 50}
     heightOffset: 0
     sideWidth: 1
-    gap: 0.1
-  baseTileData: {fileID: 11400000, guid: 3762a3900e9182c4484e4ba6fee203a6, type: 2}
-  biomes:
-  - {fileID: 11400000, guid: 017cff9ceab256f4e811236afd4845b2, type: 2}
-  - {fileID: 11400000, guid: 2cb9e239a218d6846ad15df1cc5e595c, type: 2}
+    gap: 0
+  baseTileData: {fileID: 11400000, guid: 8139023765457ba428f0958da9f3a8c9, type: 2}
+  maxHeight: 20
+  noiseScale: 34.57
 --- !u!114 &72573866
 MonoBehaviour:
   m_ObjectHideFlags: 0
