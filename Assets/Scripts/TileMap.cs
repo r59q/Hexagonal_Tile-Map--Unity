@@ -4,16 +4,10 @@ using UnityEngine;
 
 namespace HexaMap
 {
-    [System.Serializable]
     public class TileMap
     {
-        public Vector2 size = new Vector2(50, 50);
-        public float heightOffset;
 
-        [Space(8)]
-
-        public float sideWidth = 1;
-        public float gap = 0;
+        public Vector2 size;
 
         protected Tile[,] map;
 
@@ -22,12 +16,24 @@ namespace HexaMap
         float tileWidth;
         float tileHeight;
 
+        float heightOffset;
+        float sideWidth;
+
+        float gap;
+
         // the width multiplier
         float constant = 0.866f;
 
-        public TileMap()
+        public TileMap(int x , int y, float tileSideWidth, float originHeightOffset ,float tileGap)
         {
+            // set variables
+            sideWidth = tileSideWidth;
+            heightOffset = originHeightOffset;
+            gap = tileGap;
+            size.x = x; size.y = y;
             tileCount = (int)(size.x * size.y);
+
+            // initialize
             Initialize();
         }
 
@@ -89,6 +95,11 @@ namespace HexaMap
         public void Map(Tile[,] newMap)
         {
             map = newMap;
+        }
+
+        public float HeightOffset()
+        {
+            return heightOffset;
         }
 
         // For local use
