@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Name: Grassland
   m_EditorClassIdentifier: 
   biomeTileData:
-  - tile: {fileID: 11400000, guid: 59d874535d7f16444bdc83aa9eb42bc9, type: 2}
-    threshold: 0.8
-  - tile: {fileID: 11400000, guid: 9b1c0201eb4c58c4f9cd78e02ef20d0d, type: 2}
-    threshold: 0.3
   - tile: {fileID: 11400000, guid: a324ada0ce0ff894d9c839a58d4c13fb, type: 2}
-    threshold: 0
+    threshold: 1
+  - tile: {fileID: 11400000, guid: 9b1c0201eb4c58c4f9cd78e02ef20d0d, type: 2}
+    threshold: 0.5
+  - tile: {fileID: 11400000, guid: 59d874535d7f16444bdc83aa9eb42bc9, type: 2}
+    threshold: 0.1
   multiplier: 1

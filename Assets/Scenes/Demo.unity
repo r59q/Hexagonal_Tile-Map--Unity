@@ -149,8 +149,11 @@ MonoBehaviour:
   baseTileData: {fileID: 11400000, guid: 8139023765457ba428f0958da9f3a8c9, type: 2}
   maxHeight: 50
   randomness: 10
-  noiseScale: 48.6
-  biomeNoiseScale: 30.45
+  noiseScale: 62.73
+  biomeNoiseScale: 63.8
+  biomes:
+  - {fileID: 11400000, guid: 017cff9ceab256f4e811236afd4845b2, type: 2}
+  - {fileID: 11400000, guid: 2cb9e239a218d6846ad15df1cc5e595c, type: 2}
 --- !u!114 &72573866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,13 +251,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1431916000}
-  m_LocalRotation: {x: 0.37664047, y: -0, z: -0, w: 0.92635953}
-  m_LocalPosition: {x: 43.03, y: 14.92, z: -10}
+  m_LocalRotation: {x: 0.4862969, y: -0, z: -0, w: 0.87379366}
+  m_LocalPosition: {x: 79.3, y: 82.9, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 44.251003, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 58.195004, y: 0, z: 0}
 --- !u!1 &1723722709
 GameObject:
   m_ObjectHideFlags: 0

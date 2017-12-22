@@ -27,27 +27,95 @@ namespace HexaMap.Generators
             float[,] heightMap = GetNoiseMap((int)tileMap.size.x, (int)tileMap.size.y, noiseScale, randomness);
             float[,] biomeMap = GetNoiseMap((int)tileMap.size.x, (int)tileMap.size.y, biomeNoiseScale, randomness);
 
+            // set biomes before they spawn
+            SetBiomes(biomeMap);
+
             InstantiateAll();
 
             // work
             // give tiles height
             SetTileHeights(heightMap);
 
-            SetBiomes(biomeMap);
 
             // debugging
         }
 
         void SetBiomes(float[,] noiseMap)
         {
+            
             for (int x = 0; x < tileMap.size.x; x++)
             {
                 for (int y = 0; y < tileMap.size.y; y++)
                 {
                     Tile currentTile = tileMap.Tile(new Vector2(x, y));
                     float noiseValue = noiseMap[x, y];
+
+                    TileData tileData = GetBiomeFromPerlin(noiseValue);
+                    currentTile.SetTileData(tileData);
+
                 }
             }
+        }
+
+        TileData GetBiomeFromPerlin(float noise)
+        {
+            int biomeCount = biomes.Length;
+
+            float perBiomeLength = 1f / biomeCount;
+
+            float combinedMultipliers = CombinedMultipliers();
+
+            if (noise < 0)
+            {
+                noise = 0;
+            }
+            if (noise > 1)
+            {
+                noise = 1;
+            }
+            float centerOffset = 0;
+            for (int i = 0; i < biomeCount; i++)
+            {
+                BiomeData biome = biomes[i];
+                float minValue = perBiomeLength * i;
+
+                //print(centerOffset);
+
+                float thisBiomeLenght = 1 * (biome.multiplier / combinedMultipliers);
+
+                //print(biome+"@"+thisBiomeLenght);
+
+                for (int k= biome.biomeTileData.Length-1; k >= 0; k--)
+                {
+                    BiomeData.BiomeTileData biomeTileData = biome.biomeTileData[k];
+                    TileData tileData = biomeTileData.tile;
+                    //float minVal = perBiomeLength*i;
+                    float margin = perBiomeLength / biomeCount;
+                    float center = (perBiomeLength*(i)) +(margin);
+
+                    float thresholdLower = center - (margin * biomeTileData.threshold);
+                    float thresholdUpper = center + (margin * biomeTileData.threshold);
+
+                    if (noise <= thresholdUpper && noise >= thresholdLower)
+                    {
+                        return tileData;
+                    }
+                }
+                centerOffset += thisBiomeLenght;
+
+            }
+            print(noise);
+            return null;
+        }
+
+        float CombinedMultipliers()
+        {
+            float total = 0;
+            foreach (BiomeData data in biomes)
+            {
+                total += data.multiplier;
+            }
+            return total;
         }
 
         BiomeData GetBiomeFromTile(Tile tile)
