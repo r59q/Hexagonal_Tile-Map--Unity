@@ -149,8 +149,8 @@ MonoBehaviour:
   baseTileData: {fileID: 11400000, guid: 8139023765457ba428f0958da9f3a8c9, type: 2}
   maxHeight: 50
   randomness: 10
-  noiseScale: 62.73
-  biomeNoiseScale: 63.8
+  noiseScale: 61.03
+  biomeNoiseScale: 42.35
   biomes:
   - {fileID: 11400000, guid: 017cff9ceab256f4e811236afd4845b2, type: 2}
   - {fileID: 11400000, guid: 2cb9e239a218d6846ad15df1cc5e595c, type: 2}

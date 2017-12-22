@@ -16,7 +16,6 @@ namespace HexaMap
 
         public BiomeTileData[] biomeTileData;
 
-        
         public float multiplier = 1;
 
     }
