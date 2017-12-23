@@ -32,19 +32,29 @@ namespace HexaMap
         {
             if (gameObject == null)
             {
-                throw new System.Exception("The GameObject you are trying to set the height of is not spawned yet!");
+                // set new height
+                height = newHeight;
+
+                // change position
+                position = new Vector3(
+                    generator.tileMap.GetWorldPos(index).x,
+                    generator.tileMap.GetWorldPos(index).y + height,
+                    generator.tileMap.GetWorldPos(index).z);
             }
-            // set new height
-            height = newHeight;
+            else
+            {
+                // set new height
+                height = newHeight;
 
-            // change position
-            position = new Vector3(
-                generator.tileMap.GetWorldPos(index).x,
-                generator.tileMap.GetWorldPos(index).y + height,
-                generator.tileMap.GetWorldPos(index).z);
+                // change position
+                position = new Vector3(
+                    generator.tileMap.GetWorldPos(index).x,
+                    generator.tileMap.GetWorldPos(index).y + height,
+                    generator.tileMap.GetWorldPos(index).z);
 
-            // update object's position
-            gameObject.transform.position = position;
+                // update object's position
+                gameObject.transform.position = position;
+            }
         }
 
         // relative height to world space
@@ -112,18 +122,26 @@ namespace HexaMap
 
             if (gameObject == null)
             {
-                gameObject = GameObject.Instantiate(data.prefab, position, Quaternion.Euler(Vector3.zero));
-
-                behaviour = gameObject.GetComponent<TileBehaviour>();
-
-                if (behaviour == null)
+                if (data != null)
                 {
-                    //Debug.Log("<color=blue>Notice: Could not find TileBehaviour</color>\n" +
-                    //    "Have you forgotten to add one on the prefab?");
+                    gameObject = GameObject.Instantiate(data.prefab, position, Quaternion.Euler(Vector3.zero));
+
+                    behaviour = gameObject.GetComponent<TileBehaviour>();
+
+                    if (behaviour == null)
+                    {
+                        //Debug.Log("<color=blue>Notice: Could not find TileBehaviour</color>\n" +
+                        //    "Have you forgotten to add one on the prefab?");
+                    }
+                    else
+                    {
+                        behaviour.Initialize(data, this);
+                    }
                 }
                 else
                 {
-                    behaviour.Initialize(data, this);
+                    Debug.Log("<color=olive>Warning! Could not find TileData</color>\n" +
+                    "Has it been set?");
                 }
             }
             else

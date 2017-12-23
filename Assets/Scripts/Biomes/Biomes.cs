@@ -6,6 +6,9 @@ namespace HexaMap
 {
     public static class Biomes
     {
+
+        static bool bugged = false;
+        
         /// <summary>
         /// Used for calculating the threshold of a tile in a biome
         /// </summary>
@@ -18,7 +21,7 @@ namespace HexaMap
             int biomeCount = biomes.Length;
 
             float combinedMultipliers = CombinedMultipliers(biomes);
-            float centerOffset = 0;
+            float offset = 0;
             float[] biomeLengths = new float[biomeCount];
             BiomeData biome = biomes[index];
             BiomeData.BiomeTileData biomeTileData = biome.biomeTileData[tileIndex];
@@ -26,22 +29,49 @@ namespace HexaMap
             for (int i = 0; i < biomeCount; i++)
             {
                 BiomeData currentBiome = biomes[i];
-                biomeLengths[i] = 1f * (biome.multiplier / combinedMultipliers);
+                biomeLengths[i] = (currentBiome.multiplier / combinedMultipliers);
+               // Debug.Log(currentBiome + "@" + biomeLengths[i]);
+
             }
 
             for (int k = 0; k < index; k++)
             {
-                centerOffset += biomeLengths[k];
+              //  Debug.Log(biomeLengths[k+1]);
+                offset += biomeLengths[k];
             }
 
+           // Debug.Log("Index : " + index + " offset: " + offset);
 
+            float minVal = offset;
+            float maxVal = offset + biomeLengths[index];
+
+            float difference = maxVal - minVal;
+            float margin = difference / 2f;
+
+            float center = minVal + margin;
+            Debug.Log("Center: " + center);
+
+            float lower = center - (margin * biomeTileData.threshold);
+            float upper = center + (margin * biomeTileData.threshold);
+
+            Debug.Log("L: " + lower + " - U: " + upper + " @ " + biomeTileData.tile + "\n"+ "min: " + minVal + " Max: " + maxVal);
+
+            return new float[] { lower, upper };
+
+            // old code
+
+            /*
             float margin = biomeLengths[index] / 2;
             float center = (centerOffset) + (margin);
 
+
+            //Debug.Log(biomeLengths[index]);
             float thresholdLower = center - (margin * biomeTileData.threshold);
             float thresholdUpper = center + (margin * biomeTileData.threshold);
+            //Debug.Log(thresholdLower + "<-- " + biomeTileData.tile + " -->" + thresholdUpper);
 
             return new float[] { thresholdLower, thresholdUpper };
+            */
         }
 
         /// <summary>
@@ -101,14 +131,16 @@ namespace HexaMap
                     BiomeData.BiomeTileData biomeTileData = biome.biomeTileData[k];
                     TileData tileData = biomeTileData.tile;
 
+                    float[] threshholds = Threshold(i, k, biomes);
+
                     // if the noise value is within the two thresholds return the tile
-                    if (noise <= Threshold(i, k, biomes)[1] && noise >= Threshold(i, k, biomes)[0])
+                    //Debug.Log(biome + " " + threshholds[1]);
+                    if (noise <= threshholds[1] && noise >= threshholds[0])
                     {
                         return tileData;
                     }
                 }
             }
-            //print(noise);
             return null;
         }
 

@@ -17,5 +17,5 @@ MonoBehaviour:
   - tile: {fileID: 11400000, guid: 372a037f0352bc547a0a796a4233f344, type: 2}
     threshold: 0.75
   - tile: {fileID: 11400000, guid: b68cac155fe0be64988b28edf9dd31b2, type: 2}
-    threshold: 0.5
-  multiplier: 40
+    threshold: 0.3
+  multiplier: 1
