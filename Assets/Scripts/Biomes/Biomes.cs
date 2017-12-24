@@ -7,10 +7,10 @@ namespace HexaMap
     public static class Biomes
     {
 
-        static bool bugged = false;
-        
         /// <summary>
-        /// Used for calculating the threshold of a tile in a biome
+        /// Used for calculating the threshold of a tile in a biome.
+        /// This is meant for a single set of biomes. 
+        /// It does not offer height based biomes.
         /// </summary>
         /// <param name="index">the BiomeData index</param>
         /// <param name="tileIndex">the BiomeTileData index</param>
@@ -18,8 +18,8 @@ namespace HexaMap
         /// <returns>[0]: Lower threshold -- [1]: Upper threshold</returns>
         public static float[] Threshold(int index, int tileIndex, BiomeData[] biomes)
         {
+            // setting required data
             int biomeCount = biomes.Length;
-
             float combinedMultipliers = CombinedMultipliers(biomes);
             float offset = 0;
             float[] biomeLengths = new float[biomeCount];
@@ -30,52 +30,31 @@ namespace HexaMap
             {
                 BiomeData currentBiome = biomes[i];
                 biomeLengths[i] = (currentBiome.multiplier / combinedMultipliers);
-               // Debug.Log(currentBiome + "@" + biomeLengths[i]);
 
             }
 
             for (int k = 0; k < index; k++)
             {
-              //  Debug.Log(biomeLengths[k+1]);
                 offset += biomeLengths[k];
             }
 
-           // Debug.Log("Index : " + index + " offset: " + offset);
-
+            // Use the acquired data to calculate the threshold
             float minVal = offset;
             float maxVal = offset + biomeLengths[index];
 
             float difference = maxVal - minVal;
             float margin = difference / 2f;
-
             float center = minVal + margin;
-            Debug.Log("Center: " + center);
 
             float lower = center - (margin * biomeTileData.threshold);
             float upper = center + (margin * biomeTileData.threshold);
 
-            Debug.Log("L: " + lower + " - U: " + upper + " @ " + biomeTileData.tile + "\n"+ "min: " + minVal + " Max: " + maxVal);
-
             return new float[] { lower, upper };
 
-            // old code
-
-            /*
-            float margin = biomeLengths[index] / 2;
-            float center = (centerOffset) + (margin);
-
-
-            //Debug.Log(biomeLengths[index]);
-            float thresholdLower = center - (margin * biomeTileData.threshold);
-            float thresholdUpper = center + (margin * biomeTileData.threshold);
-            //Debug.Log(thresholdLower + "<-- " + biomeTileData.tile + " -->" + thresholdUpper);
-
-            return new float[] { thresholdLower, thresholdUpper };
-            */
         }
 
         /// <summary>
-        /// Used for calculating the total multipliers of all biomes given
+        /// Used for calculating the total multipliers of all biomes given.
         /// </summary>
         /// <param name="biomes">Biomes to calculate the combined multipliers from</param>
         /// <returns>The combined multiplier value from all biomes given</returns>
@@ -89,6 +68,13 @@ namespace HexaMap
             return total;
         }
 
+        /// <summary>
+        /// Used for getting the BiomeData from a tile in an array of biomes.
+        /// It loops through the biomes and finds a match to the tile you gave.
+        /// </summary>
+        /// <param name="tile">The tile to look for</param>
+        /// <param name="biomes">The set of biomes to look in</param>
+        /// <returns>The BiomeData associated with the given tile in the set of biomes.</returns>
         public static BiomeData GetBiomeFromTile(Tile tile, BiomeData[] biomes)
         {
             foreach (BiomeData biome in biomes)
@@ -104,7 +90,13 @@ namespace HexaMap
             return null;
         }
 
-        public static float GetThresholdFromTile(Tile tile, BiomeData[] biomes)
+        /// <summary>
+        /// Returns the modifier of a tile in an array of biomes.
+        /// </summary>
+        /// <param name="tile">The tile of which you want the threshold modifier</param>
+        /// <param name="biomes">The biome array to look in</param>
+        /// <returns>The threshold modifer of this tile.</returns>
+        public static float ThresholdModifier(Tile tile, BiomeData[] biomes)
         {
             foreach (BiomeData biome in biomes)
             {
@@ -121,6 +113,12 @@ namespace HexaMap
             return 1;
         }
 
+        /// <summary>
+        /// Returns the correct tiledata from an array of biomes calculated from perlin values
+        /// </summary>
+        /// <param name="noise">The perlin value to calculate the correct TileData from</param>
+        /// <param name="biomes">The array of biomes to calculate within</param>
+        /// <returns>The correct tiledata associated with the given perlin noise value</returns>
         public static TileData GetBiomeFromPerlin(float noise, BiomeData[] biomes)
         {
             for (int i = 0; i < biomes.Length; i++)

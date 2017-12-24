@@ -5,15 +5,24 @@ using UnityEngine;
 
 namespace HexaMap
 {
+    /// <summary>
+    /// The MapGenerator is a base for generator scripts.
+    /// </summary>
     public abstract class MapGenerator : MonoBehaviour
     {
-
+        /// <summary>
+        ///  TileMapData is a data container for data related to the map generation of hexagonal tiles.
+        /// </summary>
         [Serializable]
         public class TileMapData
         {
+            [Tooltip("The size of the map you want. In integers only!")]
             public Vector2 size;
+            [Tooltip("The width of the hexagonal tile's sides on the prefabs you are going to use.")]
             public float sideWidth;
+            [Tooltip("The gap you want between the tiles.")]
             public float gap;
+            [Tooltip("The height offset you want the tiles to spawn from. Tiles spawn based on the MapGenerators position in world space.")]
             public float heightOffset;
         }
 
@@ -27,7 +36,5 @@ namespace HexaMap
         }
 
         public abstract void Build();
-
-
     }
 }

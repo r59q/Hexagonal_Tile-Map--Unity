@@ -100,7 +100,7 @@ namespace HexaMap.Generators
             }
 
             // will be removed, in use for testing purposes
-            if (result[(int)originGridPos.x, (int)originGridPos.y].GetTileData() == baseTileData) {
+            if (result[(int)originGridPos.x, (int)originGridPos.y].GetTileData() == null) {
                  int random = UnityEngine.Random.Range(0, data.biomeTileData.Length);
 
                 result[(int)originGridPos.x, (int)originGridPos.y].SetTileData(data.biomeTileData[random].tile);

@@ -4,42 +4,41 @@ using UnityEngine;
 
 namespace HexaMap.Generators
 {
+    /// <summary>
+    /// The PerlinGenerator is an exstension of the SimpleGenerator.
+    /// It generates a map based off of perlin noise.
+    /// </summary>
     public class PerlinGenerator : SimpleGenerator
     {
-
+        [Tooltip("The max height of the terrain")]
         public float maxHeight = 3;
 
-        public float randomness = 1;
+        [Tooltip("How random should it be? Doesnt make much of a difference beyond 50")]
+        public float randomness = 15;
 
         [Tooltip("If noise scales are divisible by 1, they will become completely flat")]
         public float noiseScale = 15.2f;
-
         [Tooltip("If noise scales are divisible by 1, they will become completely flat")]
         public float biomeNoiseScale = 3.4f;
 
+        [Tooltip("The biomes you want to generate")]
         public BiomeData[] biomes;
 
         protected override void OnInitialized()
         {
             base.OnInitialized();
 
-            // prework
             float[,] heightMap = PerlinNoise.NoiseMap((int)tileMap.size.x, (int)tileMap.size.y, noiseScale, randomness);
             float[,] biomeMap = PerlinNoise.NoiseMap((int)tileMap.size.x, (int)tileMap.size.y, biomeNoiseScale, randomness,true);
 
-            // set biomes before they spawn
             SetBiomes(biomeMap);
+            SetTileHeights(heightMap);
 
             InstantiateAll();
 
-            // work
-            // give tiles height
-            SetTileHeights(heightMap);
-
-
-            // debugging
         }
 
+        // Internal
         void SetBiomes(float[,] noiseMap)
         {
             
@@ -49,7 +48,6 @@ namespace HexaMap.Generators
                 {
                     Tile currentTile = tileMap.Tile(new Vector2(x, y));
                     float noiseValue = noiseMap[x, y];
-
                     TileData tileData = Biomes.GetBiomeFromPerlin(noiseValue,biomes);
                     currentTile.SetTileData(tileData);
 
@@ -68,8 +66,5 @@ namespace HexaMap.Generators
                 }
             }
         }
-
-        
-
     }
 }

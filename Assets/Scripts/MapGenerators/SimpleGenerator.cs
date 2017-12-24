@@ -6,8 +6,6 @@ namespace HexaMap.Generators
 {
     public class SimpleGenerator : MapGenerator
     {
-        public TileData baseTileData;
-
         public override void Build()
         {
             // Loop through all tiles
@@ -15,7 +13,7 @@ namespace HexaMap.Generators
             {
                 for (int k = 0; k < tileMap.size.y; k++)
                 {
-                    Spawn(i, k);
+                    Spawn(i, k, null);
                 }
             }
             OnInitialized();
@@ -46,13 +44,13 @@ namespace HexaMap.Generators
         }
 
         // For making Tile objects, not instantiating prefabs
-        protected virtual void Spawn(int i, int k)
+        protected virtual void Spawn(int i, int k, TileData tileData)
         {
             // make a new tile index
             Vector2 index = new Vector2(i, k);
 
             // create the tile. Upon creation it will instantiate itself
-            tileMap.Map()[i, k] = new Tile(baseTileData, tileMap.GetWorldPos(index), tileMap.HeightOffset(), this, new Vector2(i, k));
+            tileMap.Map()[i, k] = new Tile(tileData, tileMap.GetWorldPos(index), tileMap.HeightOffset(), this, new Vector2(i, k));
         }
 
         protected bool IsGenerated(Tile[,] map)
@@ -63,7 +61,7 @@ namespace HexaMap.Generators
             {
                 for (int k = 0; k < tileMap.size.y; k++)
                 {
-                    if (map[i, k].GetTileData() == baseTileData)
+                    if (map[i, k].GetTileData() == null)
                     {
                         check = false;
                         break;

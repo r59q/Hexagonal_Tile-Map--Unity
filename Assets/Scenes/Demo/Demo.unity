@@ -147,10 +147,10 @@ MonoBehaviour:
     gap: 0
     heightOffset: 0
   baseTileData: {fileID: 11400000, guid: 8139023765457ba428f0958da9f3a8c9, type: 2}
-  maxHeight: 50
-  randomness: 10
-  noiseScale: 61.03
-  biomeNoiseScale: 16.1
+  maxHeight: 87.68
+  randomness: 25.93
+  noiseScale: 113.14
+  biomeNoiseScale: 13.2
   biomes:
   - {fileID: 11400000, guid: 017cff9ceab256f4e811236afd4845b2, type: 2}
   - {fileID: 11400000, guid: 2cb9e239a218d6846ad15df1cc5e595c, type: 2}
@@ -252,7 +252,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1431916000}
   m_LocalRotation: {x: 0.4862969, y: -0, z: -0, w: 0.87379366}
-  m_LocalPosition: {x: 79.3, y: 82.9, z: -10}
+  m_LocalPosition: {x: 101.4, y: 82.9, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
