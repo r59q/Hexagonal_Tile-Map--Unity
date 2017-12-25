@@ -26,8 +26,6 @@ namespace HexaMap.Generators
 
         protected override void OnInitialized()
         {
-            base.OnInitialized();
-
             float[,] heightMap = PerlinNoise.NoiseMap((int)tileMap.size.x, (int)tileMap.size.y, noiseScale, randomness);
             float[,] biomeMap = PerlinNoise.NoiseMap((int)tileMap.size.x, (int)tileMap.size.y, biomeNoiseScale, randomness,true);
 

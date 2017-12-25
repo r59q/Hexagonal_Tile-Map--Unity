@@ -5,7 +5,8 @@ using UnityEngine;
 namespace HexaMap
 {
     /// <summary>
-    /// Contains the data associated with a tile. Such as position, GameObject, and more.
+    /// Contains the data associated with a tile. 
+    /// Such as position, GameObject, and more.
     /// </summary>
     public class Tile
     {
@@ -30,7 +31,12 @@ namespace HexaMap
         /// <param name="heightOffset">The height offset. Internal to the MapGenerator</param>
         /// <param name="mapGenerator">The MapGenerator you wish associated with this tile.</param>
         /// <param name="gridIndex">The grid index you wish this tile to reside on.</param>
-        public Tile(TileData tiledata,Vector3 pos, float heightOffset, MapGenerator mapGenerator, Vector2 gridIndex)
+        public Tile(
+            TileData tiledata,
+            Vector3 pos, 
+            float heightOffset, 
+            MapGenerator mapGenerator, 
+            Vector2 gridIndex)
         {
             if (mapGenerator == null)
             {
@@ -60,7 +66,7 @@ namespace HexaMap
         /// Sets the height offset of the tile. If the gameobject has 
         /// already been spawned, also reposition it.
         /// </summary>
-        /// <param name="newHeight">The new height offset</param>
+        /// <param name="newHeight">The new height offset.</param>
         public void Height(float newHeight)
         {
             if (gameObject == null)
@@ -184,7 +190,8 @@ namespace HexaMap
         }
 
         /// <summary>
-        /// Sets the MapGenerator of this tile. Do not touch if you do not know what you are doing!
+        /// Sets the MapGenerator of this tile. 
+        /// Do not touch if you do not know what you are doing!
         /// </summary>
         /// <param name="newGenerator">The new MapGenerator.</param>
         public void Generator(MapGenerator newGenerator)
@@ -214,7 +221,10 @@ namespace HexaMap
             {
                 if (data != null)
                 {
-                    gameObject = GameObject.Instantiate(data.prefab, position, Quaternion.Euler(Vector3.zero));
+                    gameObject = GameObject.Instantiate(
+                        data.prefab, 
+                        position, 
+                        Quaternion.Euler(Vector3.zero));
 
                     if ((behaviours = gameObject.GetComponents<TileBehaviour>()).Length > 0)
                     {
@@ -247,28 +257,28 @@ namespace HexaMap
             List<Tile> result = new List<Tile>();
 
             // same row
-            result = AddNeighbour(generator.tileMap.Tile((int)index.x - 1, (int)index.y), result);
-            result = AddNeighbour(generator.tileMap.Tile((int)(index.x + 1), (int)index.y), result);
+            result = AddNeighbour( generator.tileMap.Tile((int)index.x - 1, (int)index.y) , result);
+            result = AddNeighbour( generator.tileMap.Tile((int)(index.x + 1), (int)index.y) , result);
 
             if (index.y % 2 == 0)
             {
                 // Upper row
-                result = AddNeighbour(generator.tileMap.Tile((int)(index.x - 1), (int)(index.y - 1)), result);
-                result = AddNeighbour(generator.tileMap.Tile((int)(index.x), (int)(index.y - 1)), result);
+                result = AddNeighbour( generator.tileMap.Tile((int)(index.x - 1), (int)(index.y - 1)) , result );
+                result = AddNeighbour( generator.tileMap.Tile((int)(index.x), (int)(index.y - 1)) , result );
 
                 // lower row
-                result = AddNeighbour(generator.tileMap.Tile((int)(index.x - 1), (int)(index.y + 1)), result);
-                result = AddNeighbour(generator.tileMap.Tile((int)(index.x), (int)(index.y + 1)), result);
+                result = AddNeighbour( generator.tileMap.Tile((int)(index.x - 1), (int)(index.y + 1)) , result );
+                result = AddNeighbour( generator.tileMap.Tile((int)(index.x), (int)(index.y + 1)) , result );
             }
             else
             {
                 // Upper row
-                result = AddNeighbour(generator.tileMap.Tile((int)(index.x + 1), (int)(index.y - 1)), result);
-                result = AddNeighbour(generator.tileMap.Tile((int)(index.x), (int)(index.y - 1)), result);
+                result = AddNeighbour( generator.tileMap.Tile((int)(index.x + 1), (int)(index.y - 1)) , result );
+                result = AddNeighbour( generator.tileMap.Tile((int)(index.x), (int)(index.y - 1)) , result );
 
                 // lower row
-                result = AddNeighbour(generator.tileMap.Tile((int)(index.x + 1), (int)(index.y + 1)), result);
-                result = AddNeighbour(generator.tileMap.Tile((int)(index.x), (int)(index.y + 1)), result);
+                result = AddNeighbour( generator.tileMap.Tile((int)(index.x + 1), (int)(index.y + 1)) , result );
+                result = AddNeighbour( generator.tileMap.Tile((int)(index.x), (int)(index.y + 1)) , result );
 
             }
 

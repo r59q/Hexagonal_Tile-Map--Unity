@@ -143,11 +143,19 @@ namespace HexaMap
             return map;
         }
 
+        /// <summary>
+        /// Set the array of Tiles this map consists of.
+        /// </summary>
+        /// <param name="newMap">An array of Tiles in corresponding size to the TileMap</param>
         public void Map(Tile[,] newMap)
         {
             map = newMap;
         }
 
+        /// <summary>
+        /// Returns the height offset. This is not world space height
+        /// </summary>
+        /// <returns>The height offset</returns>
         public float HeightOffset()
         {
             return heightOffset;
