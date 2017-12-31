@@ -28,16 +28,22 @@ namespace HexaMap.Generators
         /// <summary>
         /// Instantiates all Tiles in the TileMap.
         /// </summary>
-        public void InstantiateAll()
+        public void InstantiateTiles()
         {
             for (int i = 0; i < tileMap.size.x; i++)
             {
                 for (int k = 0; k < tileMap.size.y; k++)
                 {
+                    if (tileMap.Map()[i, k].GetTileData() == null)
+                    {
+                        Debug.Log("TileData is null");
+
+                    }
                     tileMap.Map()[i, k].Instantiate();
                 }
             }
         }
+    
 
         /// <summary>
         /// Letting extensions know when the TileMap is ready for manipulation.

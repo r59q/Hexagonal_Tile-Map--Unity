@@ -146,14 +146,15 @@ MonoBehaviour:
     sideWidth: 1
     gap: 0
     heightOffset: 0
-  baseTileData: {fileID: 11400000, guid: 8139023765457ba428f0958da9f3a8c9, type: 2}
   maxHeight: 87.68
   randomness: 25.93
-  noiseScale: 113.14
+  seasonalNoiseScale: 15.2
+  heightNoiseScale: 81.49
   biomeNoiseScale: 13.2
-  biomes:
-  - {fileID: 11400000, guid: 017cff9ceab256f4e811236afd4845b2, type: 2}
-  - {fileID: 11400000, guid: 2cb9e239a218d6846ad15df1cc5e595c, type: 2}
+  seasons:
+  - {fileID: 11400000, guid: 21aaeba08808c344dace338ded19ecfa, type: 2}
+  - {fileID: 11400000, guid: 4eb3175a18bddf146a3c856c471eb375, type: 2}
+  - {fileID: 11400000, guid: 62e60496cd2fb8f44b2e520867e0b3ce, type: 2}
 --- !u!114 &72573866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,6 +242,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -251,13 +253,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1431916000}
-  m_LocalRotation: {x: 0.4862969, y: -0, z: -0, w: 0.87379366}
-  m_LocalPosition: {x: 101.4, y: 82.9, z: -10}
+  m_LocalRotation: {x: 0.3680834, y: -0, z: -0, w: 0.92979276}
+  m_LocalPosition: {x: 39.8, y: 82.9, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 58.195004, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 43.195004, y: 0, z: 0}
 --- !u!1 &1723722709
 GameObject:
   m_ObjectHideFlags: 0

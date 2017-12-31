@@ -46,12 +46,71 @@ namespace HexaMap
             float margin = difference / 2f;
             float center = minVal + margin;
 
-            float lower = center - (margin * biomeTileData.threshold);
-            float upper = center + (margin * biomeTileData.threshold);
+            float lower = center - (margin * biomeTileData.multiplier);
+            float upper = center + (margin * biomeTileData.multiplier);
 
             return new float[] { lower, upper };
 
         }
+
+        public static float[] Threshold(int index, BiomeData biome, BiomeData[] biomes)
+        {
+            float upper = 0;
+            float lower = 0;
+            float biomeOffset = 0;
+            float combinedBiomeMultipliers = CombinedMultipliers(biomes);
+
+            for (int k = 0; k < biomes.Length; k++)
+            {
+                float minVal = biomeOffset;
+                float maxVal = biomeOffset + (biomes[k].multiplier / combinedBiomeMultipliers);
+                float difference = maxVal - minVal;
+
+                float tileOffset = 0;
+                for (int i = 0; i < biome.biomeTileData.Length; i++)
+                {
+                    BiomeData.BiomeTileData currentBiomeTileData = biome.biomeTileData[i];
+                    BiomeData.BiomeTileData searchingBiomeTileData = biome.biomeTileData[index];
+
+                    float combinedBiomeTileMultipliers = CombinedMultipliers(biome);
+
+                    upper = tileOffset + ((currentBiomeTileData.multiplier / combinedBiomeTileMultipliers) * difference) + minVal;
+                    lower = tileOffset + minVal;
+
+                    if (currentBiomeTileData == searchingBiomeTileData && biome == biomes[k])
+                    {
+                        return new float[] { lower, upper };
+                    }
+                    tileOffset += (currentBiomeTileData.multiplier / combinedBiomeTileMultipliers) * difference;
+                }
+                biomeOffset += (biomes[k].multiplier / combinedBiomeMultipliers);
+            }
+            throw new System.Exception("Threshold wasn't within the confines of 0-1");
+        }
+
+
+        public static float[] Threshold(int index, SeasonalData.HeightSlice.SliceData sliceDataToLookFor, SeasonalData.HeightSlice.SliceData[] sliceDatas)
+        {
+            float sliceOffset = 0;
+            float combinedSliceMultipliers = CombinedMultipliers(sliceDatas);
+
+            for (int k = 0; k < sliceDatas.Length; k++)
+            {
+                SeasonalData.HeightSlice.SliceData currentSlice = sliceDatas[k];
+                float minVal = sliceOffset;
+                float maxVal = sliceOffset + currentSlice.multiplier / combinedSliceMultipliers;
+
+
+                if (currentSlice == sliceDataToLookFor)
+                {
+                    return new float[] { minVal, maxVal };
+                }
+
+                sliceOffset += currentSlice.multiplier / combinedSliceMultipliers;
+            }
+            throw new System.Exception("Threshold wasn't within the confines of 0-1");
+        }
+
 
         /// <summary>
         /// Used for calculating the total multipliers of all biomes given.
@@ -62,6 +121,53 @@ namespace HexaMap
         {
             float total = 0;
             foreach (BiomeData data in biomes)
+            {
+                total += data.multiplier;
+            }
+            return total;
+        }
+
+        public static float CombinedMultipliers(BiomeData biome)
+        {
+            float result = 0;
+            for (int i = 0; i < biome.biomeTileData.Length; i++)
+            {
+                BiomeData.BiomeTileData biomeTileData = biome.biomeTileData[i];
+                result += biomeTileData.multiplier;
+            }
+            return result;
+        }
+
+        public static float CombinedMultipliers(SeasonalData.HeightSlice.SliceData[] biomes)
+        {
+            float total = 0;
+            foreach (SeasonalData.HeightSlice.SliceData data in biomes)
+            {
+                total += data.multiplier;
+            }
+            return total;
+        }
+
+
+        /// <summary>
+        /// Used for calculating the total multipliers of all seasons given.
+        /// </summary>
+        /// <param name="biomes">Seasons to calculate the combined multipliers from</param>
+        /// <returns>The combined multiplier value from all seasons given</returns>
+        public static float CombinedMultipliers(SeasonalData[] seasonals)
+        {
+            float total = 0;
+            foreach (SeasonalData data in seasonals)
+            {
+                total += data.multiplier;
+            }
+            return total;
+        }
+
+        public static float CombinedMultipliers(SeasonalData.HeightSlice[] slices)
+        {
+            float total = 0;
+            foreach (var data in slices)
             {
                 total += data.multiplier;
             }
@@ -104,7 +210,7 @@ namespace HexaMap
                 {
                     if (data.tile == tile.GetTileData())
                     {
-                        return data.threshold;
+                        return data.multiplier;
                     }
                 }
             }
@@ -142,5 +248,128 @@ namespace HexaMap
             return null;
         }
 
+        public static SeasonalData.HeightSlice[] SlicesFromPerlin(NoiseCollection noiseCollection, Generators.PerlinGenerator generator, int x, int y)
+        {
+            float[,] seasonNoise = noiseCollection.SeasonalMap();
+            float[,] heightNoise = noiseCollection.HeightMap();
+            float[,] biomeNoise = noiseCollection.BiomeMap();
+
+            int result = 0;
+
+            // Seasons
+            float seasonalOffset = 0;
+            float seasonalMultipliers = CombinedMultipliers(generator.seasons);
+            for (int s = 0; s < generator.seasons.Length; s++)
+            {
+                SeasonalData season = generator.seasons[s];
+                float seasonMax = seasonalOffset + (season.multiplier / seasonalMultipliers);
+                float seasonMin = seasonalOffset;
+
+                // Height slices in season
+                float heightOffset = 0;
+                float heightMultipliers = CombinedMultipliers(season.heightSlices);
+                for (int h = 0; h < season.heightSlices.Length; h++)
+                {
+                    SeasonalData.HeightSlice slice = season.heightSlices[h];
+                    float heightMax = heightOffset + (slice.multiplier / heightMultipliers);
+                    float heightMin = heightOffset;
+
+                    // Biomes in slice
+                    float biomeMultipliers = CombinedMultipliers(slice.sliceBiomes);
+                    float biomeOffset = 0;
+                    for (int b = 0; b < slice.sliceBiomes.Length; b++)
+                    {
+                        SeasonalData.HeightSlice.SliceData biome = slice.sliceBiomes[b];
+                        float biomeMax = biomeOffset + (biome.multiplier / biomeMultipliers);
+                        float biomeMin = biomeOffset;
+
+                        // cap off noise in order to avoid errors.
+                        float perlinSeason = PerlinNoise.CapNoise(seasonNoise[x, y]);
+                        float perlinHeight = PerlinNoise.CapNoise(heightNoise[x, y]);
+                        float perlinBiome = PerlinNoise.CapNoise(biomeNoise[x, y]);
+
+                        // Check here
+                        if (perlinSeason >= seasonMin && perlinSeason <= seasonMax)
+                        {
+                            if (perlinHeight >= heightMin && perlinHeight <= heightMax)
+                            {
+                                if (perlinBiome >= biomeMin && perlinBiome <= biomeMax)
+                                {
+                                    result = s;
+                                }
+                            }
+                        }
+                        // Increase offsets
+                        biomeOffset += biome.multiplier / biomeMultipliers;
+                    }
+                    heightOffset += slice.multiplier / heightMultipliers;
+                }
+                seasonalOffset += season.multiplier / seasonalMultipliers;
+            }
+
+            return generator.seasons[result].heightSlices;
+        }
+
+        public static int[] SliceFromPerlin(NoiseCollection noiseCollection, Generators.PerlinGenerator generator, int x, int y)
+        {
+            float[,] seasonNoise = noiseCollection.SeasonalMap();
+            float[,] heightNoise = noiseCollection.HeightMap();
+            float[,] biomeNoise = noiseCollection.BiomeMap();
+
+            // Seasons
+            float seasonalOffset = 0;
+            float seasonalMultipliers = CombinedMultipliers(generator.seasons);
+            for (int s = 0; s < generator.seasons.Length; s++)
+            {
+                SeasonalData season = generator.seasons[s];
+                float seasonMax = seasonalOffset + (season.multiplier / seasonalMultipliers);
+                float seasonMin = seasonalOffset;
+
+                // Height slices in season
+                float heightOffset = 0;
+                float heightMultipliers = CombinedMultipliers(season.heightSlices);
+                for (int h = 0; h < season.heightSlices.Length; h++)
+                {
+                    SeasonalData.HeightSlice slice = season.heightSlices[h];
+                    float heightMax = heightOffset + (slice.multiplier / heightMultipliers);
+                    float heightMin = heightOffset;
+
+                    // Biomes in slice
+                    float biomeMultipliers = CombinedMultipliers(slice.sliceBiomes);
+                    float biomeOffset = 0;
+                    for (int b = 0; b < slice.sliceBiomes.Length; b++)
+                    {
+                        SeasonalData.HeightSlice.SliceData biome = slice.sliceBiomes[b];
+                        float biomeMax = biomeOffset + (biome.multiplier / biomeMultipliers);
+                        float biomeMin = biomeOffset;
+
+                        // cap off noise in order to avoid errors.
+                        float perlinSeason = PerlinNoise.CapNoise( seasonNoise[x, y] ) ;
+                        float perlinHeight = PerlinNoise.CapNoise( heightNoise[x, y] ) ;
+                        float perlinBiome = PerlinNoise.CapNoise( biomeNoise[x, y] );
+
+                        // Check here
+                        if (perlinSeason >= seasonMin && perlinSeason <= seasonMax)
+                        {
+                            if (perlinHeight >= heightMin && perlinHeight <= heightMax)
+                            {
+                                if (perlinBiome >= biomeMin && perlinBiome <= biomeMax)
+                                {
+                                    return new int[3] { s , h , b };
+                                }
+                            }
+                        }
+                        // Increase offsets
+                        biomeOffset += biome.multiplier / biomeMultipliers;
+                    }
+                    heightOffset += slice.multiplier / heightMultipliers;
+                }
+                seasonalOffset += season.multiplier / seasonalMultipliers;
+            }
+
+            return null;
+        }
+
+        
     }
 }

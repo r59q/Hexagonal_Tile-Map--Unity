@@ -17,38 +17,79 @@ namespace HexaMap.Generators
         public float randomness = 15;
 
         [Tooltip("If noise scales are divisible by 1, they will become completely flat")]
-        public float noiseScale = 15.2f;
+        public float seasonalNoiseScale = 15.2f;
+        [Tooltip("If noise scales are divisible by 1, they will become completely flat")]
+        public float heightNoiseScale = 15.2f;
         [Tooltip("If noise scales are divisible by 1, they will become completely flat")]
         public float biomeNoiseScale = 3.4f;
 
-        [Tooltip("The biomes you want to generate")]
-        public BiomeData[] biomes;
+        [Tooltip("The seasons you want to generate")]
+        public SeasonalData[] seasons;
+        BiomeData[] biomes;
 
         protected override void OnInitialized()
         {
-            float[,] heightMap = PerlinNoise.NoiseMap((int)tileMap.size.x, (int)tileMap.size.y, noiseScale, randomness);
-            float[,] biomeMap = PerlinNoise.NoiseMap((int)tileMap.size.x, (int)tileMap.size.y, biomeNoiseScale, randomness,true);
+            // Generate perlin noise map.
+            NoiseCollection noises = new NoiseCollection((int)tileMap.size.x, (int)tileMap.size.y, randomness, seasonalNoiseScale, heightNoiseScale, biomeNoiseScale);
 
-            SetBiomes(biomeMap);
-            SetTileHeights(heightMap);
+            // Make biome array.
+            List<BiomeData> biomeList = new List<BiomeData>();
+            foreach (SeasonalData seasonalData in seasons)
+            {
+                foreach (SeasonalData.HeightSlice slice in seasonalData.heightSlices)
+                {
+                    foreach (SeasonalData.HeightSlice.SliceData sliceData in slice.sliceBiomes)
+                    {
+                        if (!biomeList.Contains(sliceData.biomeData))
+                        {
+                            biomeList.Add(sliceData.biomeData);
+                        }
+                    }
+                }
+            }
+            biomes = biomeList.ToArray();
 
-            InstantiateAll();
+            // Set tile data.
+            SetTileHeights(noises.HeightMap());
+            SetBiomes(noises);
+
+            // Instantiate tiles.
+            InstantiateTiles();
 
         }
 
         // Internal
-        void SetBiomes(float[,] noiseMap)
+        void SetBiomes(NoiseCollection noiseCollection)
         {
-            
             for (int x = 0; x < tileMap.size.x; x++)
             {
                 for (int y = 0; y < tileMap.size.y; y++)
                 {
                     Tile currentTile = tileMap.Tile(new Vector2(x, y));
-                    float noiseValue = noiseMap[x, y];
-                    TileData tileData = Biomes.GetBiomeFromPerlin(noiseValue,biomes);
-                    currentTile.SetTileData(tileData);
+                    float seasonNoise = noiseCollection.SeasonalMap()[x, y];
+                    float biomeNoise = PerlinNoise.CapNoise(noiseCollection.BiomeMap()[x, y]);
 
+                    for (int i = 0; i < biomes.Length; i++)
+                    {
+                        BiomeData biomeData = biomes[i];
+                        for (int k = 0; k < biomeData.biomeTileData.Length; k++)
+                        {
+                            int[] sliceIndexes = Biomes.SliceFromPerlin(noiseCollection, this, x, y);
+
+                            BiomeData.BiomeTileData biomeTileData = biomeData.biomeTileData[k];
+                            SeasonalData.HeightSlice.SliceData sliceToPlace = seasons[sliceIndexes[0]].heightSlices[sliceIndexes[1]].sliceBiomes[sliceIndexes[2]];
+                            SeasonalData.HeightSlice.SliceData[] toLookIn = seasons[sliceIndexes[0]].heightSlices[sliceIndexes[1]].sliceBiomes;
+
+                            float[] thresholds = Biomes.Threshold(k, biomeData, biomes);
+                            //Debug.Log(thresholds[0] + " / " + thresholds[1]);
+
+
+                            if (biomeNoise >= thresholds[0] && biomeNoise <= thresholds[1])
+                            {
+                                currentTile.SetTileData(biomeTileData.tile);
+                            }
+                        }
+                    }
                 }
             }
         }

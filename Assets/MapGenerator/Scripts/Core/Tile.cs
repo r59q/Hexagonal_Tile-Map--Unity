@@ -236,8 +236,8 @@ namespace HexaMap
                 }
                 else
                 {
-                    Debug.Log("<color=olive>Warning! Could not find TileData</color>\n" +
-                    "Has it been set?");
+                    //Debug.Log("<color=olive>Warning! Could not find TileData</color>\n" +
+                    //"Has it been set?");
                 }
             }
             else

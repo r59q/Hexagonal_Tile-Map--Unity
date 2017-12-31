@@ -18,7 +18,7 @@ namespace HexaMap
         /// <param name="scale">The scale of the noise.</param>
         /// <param name="noiseMapScale">The noise map scale factor.</param>
         /// <returns>2-dimensional array of noise values</returns>
-        public static float[,] NoiseMap(int mapWidth, int mapHeight, float scale, float noiseMapScale)
+        public static float[,] MakeNoiseMap(int mapWidth, int mapHeight, float scale, float noiseMapScale)
         {
             if (noiseMapScale < 1)
             {
@@ -72,7 +72,7 @@ namespace HexaMap
         /// <param name="noiseMapScale">The noise map scale factor.</param>
         /// <param name="safemode">Safemode or not.</param>
         /// <returns>2-dimensional array of noise values</returns>
-        public static float[,] NoiseMap(int mapWidth, int mapHeight, float scale, float noiseMapScale, bool safemode)
+        public static float[,] MakeNoiseMap(int mapWidth, int mapHeight, float scale, float noiseMapScale, bool safemode)
         {
             if (noiseMapScale < 1)
             {
@@ -123,6 +123,24 @@ namespace HexaMap
             }
 
             return noiseMap;
+        }
+
+        /// <summary>
+        /// Returns a capped off perlin noise values to avoid having to handle cases for values above 1 and below 0.
+        /// </summary>
+        /// <param name="noise">The perlin noise you wish the cap off</param>
+        /// <returns>The capped off perlin noise</returns>
+        public static float CapNoise(float noise)
+        {
+            if (noise < 0)
+            {
+                noise = 0;
+            }
+            if (noise > 1)
+            {
+                noise = 1;
+            }
+            return noise;
         }
 
     }
