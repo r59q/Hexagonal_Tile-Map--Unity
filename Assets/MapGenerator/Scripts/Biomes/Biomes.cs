@@ -112,6 +112,130 @@ namespace HexaMap
         }
 
 
+        public static SeasonalData SeasonFromNoise(float noise, SeasonalData[] seasons)
+        {
+
+            for (int i = 0; i < seasons.Length; i++)
+            {
+                SeasonalData currentSeason = seasons[i];
+                float max = Offset(i, seasons) + (currentSeason.multiplier / CombinedMultipliers(seasons));
+                float min = Offset(i, seasons);
+
+                if (noise <= max && noise >= min)
+                {
+                    return currentSeason;
+                }
+
+            }
+
+            throw new System.Exception("Data not found in data set!");
+        }
+
+        public static SeasonalData.HeightSlice HeightSliceFromNoise(float noise, SeasonalData.HeightSlice[] heightSlices)
+        {
+
+            for (int i = 0; i < heightSlices.Length; i++)
+            {
+                SeasonalData.HeightSlice currentHeightSlices = heightSlices[i];
+                float max = Offset(i, heightSlices) + (currentHeightSlices.multiplier / CombinedMultipliers(heightSlices));
+                float min = Offset(i, heightSlices);
+
+                if (noise <= max && noise >= min)
+                {
+                    return currentHeightSlices;
+                }
+
+            }
+
+            throw new System.Exception("Data not found in data set!");
+        }
+
+        public static SeasonalData.HeightSlice.SliceData SliceDataFromNoise(float noise, SeasonalData.HeightSlice.SliceData[] slices)
+        {
+
+            for (int i = 0; i < slices.Length; i++)
+            {
+                SeasonalData.HeightSlice.SliceData currentSlice = slices[i];
+                float max = Offset(i, slices) + (currentSlice.multiplier / CombinedMultipliers(slices));
+                float min = Offset(i, slices);
+
+                if (noise <= max && noise >= min)
+                {
+                    return currentSlice;
+                }
+
+            }
+
+            throw new System.Exception("Data not found in data set!");
+        }
+
+        public static TileData TileDataFromNoise(float noise, BiomeData biomeData)
+        {
+
+            for (int i = 0; i < biomeData.biomeTileData.Length; i++)
+            {
+                TileData currentTile = biomeData.biomeTileData[i].tile;
+                float max = Offset(i, biomeData) + (biomeData.biomeTileData[i].multiplier / CombinedMultipliers(biomeData));
+                float min = Offset(i, biomeData);
+
+                if (noise <= max && noise >= min)
+                {
+                    return currentTile;
+                }
+
+            }
+
+            throw new System.Exception("Data not found in data set!");
+        }
+
+        static float Offset(int i, SeasonalData[] seasons)
+        {
+            float combinedMultipliers = CombinedMultipliers(seasons);
+            float offset = 0;
+            for (int k = 0; k < i; k++)
+            {
+                SeasonalData currentSeason = seasons[k];
+                offset += currentSeason.multiplier / combinedMultipliers;
+            }
+            return offset;
+        }
+
+        static float Offset(int i, SeasonalData.HeightSlice[] heightSlices)
+        {
+            float combinedMultipliers = CombinedMultipliers(heightSlices);
+            float offset = 0;
+            for (int k = 0; k < i; k++)
+            {
+                SeasonalData.HeightSlice currentHeightSlices = heightSlices[k];
+                offset += currentHeightSlices.multiplier / combinedMultipliers;
+            }
+            return offset;
+        }
+
+        static float Offset(int i, SeasonalData.HeightSlice.SliceData[] slices)
+        {
+            float combinedMultipliers = CombinedMultipliers(slices);
+            float offset = 0;
+            for (int k = 0; k < i; k++)
+            {
+                SeasonalData.HeightSlice.SliceData currentSlice = slices[k];
+                offset += currentSlice.multiplier / combinedMultipliers;
+            }
+            return offset;
+        }
+
+        static float Offset(int i, BiomeData biomeData)
+        {
+            float combinedMultipliers = CombinedMultipliers(biomeData);
+            float offset = 0;
+            for (int k = 0; k < i; k++)
+            {
+                BiomeData.BiomeTileData currentBiomeTileData = biomeData.biomeTileData[k];
+                offset += currentBiomeTileData.multiplier / combinedMultipliers;
+            }
+            return offset;
+        }
+
         /// <summary>
         /// Used for calculating the total multipliers of all biomes given.
         /// </summary>

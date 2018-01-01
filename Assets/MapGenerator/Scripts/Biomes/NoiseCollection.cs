@@ -16,6 +16,7 @@ namespace HexaMap
 
         float[,] seasonalMap;
         float[,] heightMap;
+        float[,] sliceMap;
         float[,] biomeMap;
 
         public NoiseCollection(int widthParam, int heightParam, float randomnessParam, float seasonalScaleParam, float heightScaleParam, float biomeScaleParam)
@@ -32,6 +33,9 @@ namespace HexaMap
             seasonalMap = PerlinNoise.MakeNoiseMap(width, height, seasonalScale, randomness, true);
             heightMap = PerlinNoise.MakeNoiseMap(width, height, heightScale, randomness);
             biomeMap = PerlinNoise.MakeNoiseMap(width, height, biomeScale, randomness, true);
+
+            // Make slice map scaling
+            sliceMap = PerlinNoise.MakeNoiseMap(width, height, biomeScale, randomness, true);
         }
 
         public float[,] HeightMap()
@@ -47,6 +51,11 @@ namespace HexaMap
         public float[,] BiomeMap()
         {
             return biomeMap;
+        }
+
+        public float[,] SliceMap()
+        {
+            return sliceMap;
         }
 
     }

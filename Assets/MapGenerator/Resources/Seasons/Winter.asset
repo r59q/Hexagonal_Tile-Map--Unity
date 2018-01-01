@@ -13,11 +13,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heightSlices:
   - sliceBiomes:
+    - biomeData: {fileID: 11400000, guid: 6cb2a31abf6386e42acc143215901d34, type: 2}
+      multiplier: 1
+    multiplier: 2
+  - sliceBiomes:
     - biomeData: {fileID: 11400000, guid: f9c2e08020fbca34aabd02a26fabffb0, type: 2}
       multiplier: 1
     multiplier: 1
-  - sliceBiomes:
-    - biomeData: {fileID: 11400000, guid: 6cb2a31abf6386e42acc143215901d34, type: 2}
-      multiplier: 1
-    multiplier: 1
-  multiplier: 1
+  multiplier: 2

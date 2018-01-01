@@ -18,8 +18,4 @@ MonoBehaviour:
     multiplier: 1
   - tile: {fileID: 11400000, guid: b68cac155fe0be64988b28edf9dd31b2, type: 2}
     multiplier: 2
-  - tile: {fileID: 11400000, guid: 372a037f0352bc547a0a796a4233f344, type: 2}
-    multiplier: 1
-  - tile: {fileID: 11400000, guid: 7a1e58bbbcf5abc46b37632fe0e9456c, type: 2}
-    multiplier: 1
   multiplier: 1

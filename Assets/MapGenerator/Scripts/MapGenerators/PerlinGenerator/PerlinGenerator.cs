@@ -66,30 +66,19 @@ namespace HexaMap.Generators
                 for (int y = 0; y < tileMap.size.y; y++)
                 {
                     Tile currentTile = tileMap.Tile(new Vector2(x, y));
-                    float seasonNoise = noiseCollection.SeasonalMap()[x, y];
+                    float seasonNoise = PerlinNoise.CapNoise(noiseCollection.SeasonalMap()[x, y]);
                     float biomeNoise = PerlinNoise.CapNoise(noiseCollection.BiomeMap()[x, y]);
+                    float heightNoise = PerlinNoise.CapNoise(noiseCollection.HeightMap()[x, y]);
+                    float sliceNoise = PerlinNoise.CapNoise(noiseCollection.SliceMap()[x, y]);
 
-                    for (int i = 0; i < biomes.Length; i++)
-                    {
-                        BiomeData biomeData = biomes[i];
-                        for (int k = 0; k < biomeData.biomeTileData.Length; k++)
-                        {
-                            int[] sliceIndexes = Biomes.SliceFromPerlin(noiseCollection, this, x, y);
+                    // Grab data
+                    SeasonalData season = Biomes.SeasonFromNoise(seasonNoise, seasons);
+                    SeasonalData.HeightSlice heightSlice = Biomes.HeightSliceFromNoise(heightNoise, season.heightSlices);
+                    SeasonalData.HeightSlice.SliceData sliceData = Biomes.SliceDataFromNoise(heightNoise, heightSlice.sliceBiomes);
+                    BiomeData biomeData = sliceData.biomeData;
+                    TileData tileData = Biomes.TileDataFromNoise(biomeNoise, biomeData);
 
-                            BiomeData.BiomeTileData biomeTileData = biomeData.biomeTileData[k];
-                            SeasonalData.HeightSlice.SliceData sliceToPlace = seasons[sliceIndexes[0]].heightSlices[sliceIndexes[1]].sliceBiomes[sliceIndexes[2]];
-                            SeasonalData.HeightSlice.SliceData[] toLookIn = seasons[sliceIndexes[0]].heightSlices[sliceIndexes[1]].sliceBiomes;
-
-                            float[] thresholds = Biomes.Threshold(k, biomeData, biomes);
-                            //Debug.Log(thresholds[0] + " / " + thresholds[1]);
-
-
-                            if (biomeNoise >= thresholds[0] && biomeNoise <= thresholds[1])
-                            {
-                                currentTile.SetTileData(biomeTileData.tile);
-                            }
-                        }
-                    }
+                    currentTile.SetTileData(tileData);
                 }
             }
         }

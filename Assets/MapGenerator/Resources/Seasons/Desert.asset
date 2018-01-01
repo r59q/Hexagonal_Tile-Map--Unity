@@ -16,4 +16,4 @@ MonoBehaviour:
     - biomeData: {fileID: 11400000, guid: 2cb9e239a218d6846ad15df1cc5e595c, type: 2}
       multiplier: 1
     multiplier: 1
-  multiplier: 3
+  multiplier: 2
