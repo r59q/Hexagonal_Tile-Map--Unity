@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HexaMap.Generators
+namespace HexaMap
 {
     /// <summary>
     /// The PerlinGenerator is an exstension of the SimpleGenerator.
@@ -25,29 +25,12 @@ namespace HexaMap.Generators
 
         [Tooltip("The seasons you want to generate")]
         public SeasonalData[] seasons;
-        BiomeData[] biomes;
+
 
         protected override void OnInitialized()
         {
             // Generate perlin noise map.
             NoiseCollection noises = new NoiseCollection((int)tileMap.size.x, (int)tileMap.size.y, randomness, seasonalNoiseScale, heightNoiseScale, biomeNoiseScale);
-
-            // Make biome array.
-            List<BiomeData> biomeList = new List<BiomeData>();
-            foreach (SeasonalData seasonalData in seasons)
-            {
-                foreach (SeasonalData.HeightSlice slice in seasonalData.heightSlices)
-                {
-                    foreach (SeasonalData.HeightSlice.SliceData sliceData in slice.sliceBiomes)
-                    {
-                        if (!biomeList.Contains(sliceData.biomeData))
-                        {
-                            biomeList.Add(sliceData.biomeData);
-                        }
-                    }
-                }
-            }
-            biomes = biomeList.ToArray();
 
             // Set tile data.
             SetTileHeights(noises.HeightMap());
@@ -69,7 +52,6 @@ namespace HexaMap.Generators
                     float seasonNoise = PerlinNoise.CapNoise(noiseCollection.SeasonalMap()[x, y]);
                     float biomeNoise = PerlinNoise.CapNoise(noiseCollection.BiomeMap()[x, y]);
                     float heightNoise = PerlinNoise.CapNoise(noiseCollection.HeightMap()[x, y]);
-                    float sliceNoise = PerlinNoise.CapNoise(noiseCollection.SliceMap()[x, y]);
 
                     // Grab data
                     SeasonalData season = Biomes.SeasonFromNoise(seasonNoise, seasons);

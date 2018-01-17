@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HexaMap.Generators
+namespace HexaMap
 {
     /// <summary>
     /// A base class for other MapGenerators. Contains methods for generating Tiles.
