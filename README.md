@@ -50,11 +50,10 @@ Lets get started.
  * **Step 6 :** Add the following code to your start method.
  
 ```csharp
-mapHandler = GetComponent<MapGenerator>(); // PerlinGenerator is an extension of Mapgenerator
-mapHandler.Build();
+GetComponent<MapGenerator>().Build(); // PerlinGenerator is an extension of Mapgenerator
 ```
 
-* **Step 7 :** Tweak the settings to fit your needs.
+* **Step 7 :** Tweak the settings on the PerlinGenerator component, that you added to your GameManager object, to suit your needs.
 
 Visit the wiki for more information.
 
@@ -67,13 +66,13 @@ Visit the wiki for more information.
 
 ## Versioning
 
-For the versions available, see the [tags on this repository](https://github.com/r59q/Weapons--Unity/tags). 
+For the most stable versions available, see the [tags on this repository](https://github.com/r59q/Hexagonal_Tile-Map--Unity/tags). 
 
 ## Authors
 
 * **A. Malthe Henriksen** - [r59q](https://github.com/r59q)
 
-See also the list of [contributors](https://github.com/r59q/Weapons--Unity/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/r59q/Hexagonal_Tile-Map--Unity/contributors) who participated in this project.
 
 ## License
 
