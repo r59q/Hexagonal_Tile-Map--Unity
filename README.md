@@ -2,6 +2,8 @@
 
 Map generation component for Unity, which utilizes several layers of perlin noise to generate biomes and terrain.
 
+![alt text](http://i67.tinypic.com/2m6lqnp.png)
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development, testing and demonstration purposes
