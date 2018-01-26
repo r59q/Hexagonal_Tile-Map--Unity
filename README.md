@@ -57,7 +57,7 @@ GetComponent<MapGenerator>().Build(); // PerlinGenerator is an extension of Mapg
 
 * **Step 7 :** Tweak the settings on the PerlinGenerator component, that you added to your GameManager object, to suit your needs.
 
-Visit the wiki for more information.
+Visit the [wiki](https://github.com/r59q/Hexagonal_Tile-Map--Unity/wiki) for more information.
 
 &nbsp;
 
