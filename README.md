@@ -16,6 +16,8 @@ These instructions will get you a copy of the project up and running on your loc
  
  *Now the project should be open, and you should be able to press play and run the project from within Unity.*
 
+* **Step 4:** [Read the wiki](https://github.com/r59q/Hexagonal_Tile-Map--Unity/wiki)
+
 ### Prerequisites
 
     You will need Unity 2017
@@ -33,7 +35,7 @@ It is recommended if you are already working on a project or are already experie
 
 &nbsp;
 
-Lets get started.
+Let's get started.
 
  * **Step 1 :** [Download](https://github.com/r59q/Hexagonal_Tile-Map--Unity/releases) the minimal version of the project, which is in the release description.
  
