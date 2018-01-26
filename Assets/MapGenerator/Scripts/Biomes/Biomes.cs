@@ -4,13 +4,14 @@ using UnityEngine;
 
 namespace HexaMap
 {
+    /// <summary>
+    /// Contains the functionality of biomes.
+    /// </summary>
     public static class Biomes
     {
 
         /// <summary>
         /// Used for calculating the threshold of a tile in a biome.
-        /// This is meant for a single set of biomes. 
-        /// It does not offer height based biomes.
         /// </summary>
         /// <param name="index">the BiomeData index</param>
         /// <param name="tileIndex">the BiomeTileData index</param>
@@ -53,6 +54,13 @@ namespace HexaMap
 
         }
 
+        /// <summary>
+        /// Used for calculating the threshold of a tile in a biome.
+        /// </summary>
+        /// <param name="index">BiomeTileData index of the tile you wish to analyse.</param>
+        /// <param name="biome">The biome(BiomeData) to look in.</param>
+        /// <param name="biomes">The set of biomes to look in.</param>
+        /// <returns>[0]: Lower threshold -- [1]: Upper threshold</returns>
         public static float[] Threshold(int index, BiomeData biome, BiomeData[] biomes)
         {
             float upper = 0;
@@ -88,8 +96,13 @@ namespace HexaMap
             throw new System.Exception("Threshold wasn't within the confines of 0-1");
         }
 
-
-        public static float[] Threshold(int index, SeasonalData.HeightSlice.SliceData sliceDataToLookFor, SeasonalData.HeightSlice.SliceData[] sliceDatas)
+        /// <summary>
+        /// Used for calculating the threshold of slices in heightslices.
+        /// </summary>
+        /// <param name="sliceDataToLookFor">The slice data you wish to calculate.</param>
+        /// <param name="sliceDatas">The sliceData array you wish to calculate from.</param>
+        /// <returns>[0]: Lower threshold -- [1]: Upper threshold</returns>
+        public static float[] Threshold(SeasonalData.HeightSlice.SliceData sliceDataToLookFor, SeasonalData.HeightSlice.SliceData[] sliceDatas)
         {
             float sliceOffset = 0;
             float combinedSliceMultipliers = CombinedMultipliers(sliceDatas);
@@ -111,7 +124,12 @@ namespace HexaMap
             throw new System.Exception("Threshold wasn't within the confines of 0-1");
         }
 
-
+        /// <summary>
+        /// Returns the seasonal data associated with a perlin noise from an array of SeasonalData.
+        /// </summary>
+        /// <param name="noise">The noise from which you want the associated SeasonalData.</param>
+        /// <param name="seasons">The array of SeasonalData you wish to calculate from.</param>
+        /// <returns>The seasonal data associated with the given perlin noise.</returns>
         public static SeasonalData SeasonFromNoise(float noise, SeasonalData[] seasons)
         {
 
@@ -131,6 +149,12 @@ namespace HexaMap
             throw new System.Exception("Data not found in data set!");
         }
 
+        /// <summary>
+        /// Returns the heightslice associated with a given perlin noise, calculated from an array of heightslices.
+        /// </summary>
+        /// <param name="noise">The perlin noise you wish to know the associated heightslice of.</param>
+        /// <param name="heightSlices">The array of heightslices you wish to calculate within.</param>
+        /// <returns>The heightslice associated with the given perlin noise.</returns>
         public static SeasonalData.HeightSlice HeightSliceFromNoise(float noise, SeasonalData.HeightSlice[] heightSlices)
         {
 
@@ -150,6 +174,12 @@ namespace HexaMap
             throw new System.Exception("Data not found in data set!");
         }
 
+        /// <summary>
+        /// Returns the SliceData associated with a given perlin noise, calculated from an array of SliceData.
+        /// </summary>
+        /// <param name="noise">The perlin noise you wish to know the associated SliceData of.</param>
+        /// <param name="heightSlices">The array of SliceData you wish to calculate within.</param>
+        /// <returns>The SliceData associated with the given perlin noise.</returns>
         public static SeasonalData.HeightSlice.SliceData SliceDataFromNoise(float noise, SeasonalData.HeightSlice.SliceData[] slices)
         {
 
@@ -169,6 +199,12 @@ namespace HexaMap
             throw new System.Exception("Data not found in data set!");
         }
 
+        /// <summary>
+        /// Returns the TileData associated with a given perlin noise, calculated from a BiomeData set.
+        /// </summary>
+        /// <param name="noise">The perlin noise you wish to know the associated TileData of.</param>
+        /// <param name="heightSlices">The BiomeData you wish to calculate within.</param>
+        /// <returns>The TileData associated with the given perlin noise.</returns>
         public static TileData TileDataFromNoise(float noise, BiomeData biomeData)
         {
 
@@ -188,6 +224,12 @@ namespace HexaMap
             throw new System.Exception("Data not found in data set!");
         }
 
+        /// <summary>
+        /// Calculate the perlin noise offset based on an index and an array.
+        /// </summary>
+        /// <param name="i">The index you are currently on.</param>
+        /// <param name="seasons">The seasons you are looping through.</param>
+        /// <returns>The perlin noise offset.</returns>
         static float Offset(int i, SeasonalData[] seasons)
         {
             float combinedMultipliers = CombinedMultipliers(seasons);
@@ -200,6 +242,12 @@ namespace HexaMap
             return offset;
         }
 
+        /// <summary>
+        /// Calculate the perlin noise offset based on an index and an array.
+        /// </summary>
+        /// <param name="i">The index you are currently on.</param>
+        /// <param name="seasons">The heightslices you are looping through.</param>
+        /// <returns>The perlin noise offset.</returns>
         static float Offset(int i, SeasonalData.HeightSlice[] heightSlices)
         {
             float combinedMultipliers = CombinedMultipliers(heightSlices);
@@ -212,6 +260,12 @@ namespace HexaMap
             return offset;
         }
 
+        /// <summary>
+        /// Calculate the perlin noise offset based on an index and an array.
+        /// </summary>
+        /// <param name="i">The index you are currently on.</param>
+        /// <param name="seasons">The SliceData array you are looping through.</param>
+        /// <returns>The perlin noise offset.</returns>
         static float Offset(int i, SeasonalData.HeightSlice.SliceData[] slices)
         {
             float combinedMultipliers = CombinedMultipliers(slices);
@@ -224,6 +278,12 @@ namespace HexaMap
             return offset;
         }
 
+        /// <summary>
+        /// Calculate the perlin noise offset based on an index and an array.
+        /// </summary>
+        /// <param name="i">The index you are currently on.</param>
+        /// <param name="seasons">The BiomeData you are looking through.</param>
+        /// <returns>The perlin noise offset.</returns>
         static float Offset(int i, BiomeData biomeData)
         {
             float combinedMultipliers = CombinedMultipliers(biomeData);
@@ -251,6 +311,11 @@ namespace HexaMap
             return total;
         }
 
+        /// <summary>
+        /// Used for calculating the total multipliers of all BiomeTileData in a given BiomeData.
+        /// </summary>
+        /// <param name="biomes">Biome to calculate the combined multipliers from</param>
+        /// <returns>The combined multiplier value from a given BiomeData</returns>
         public static float CombinedMultipliers(BiomeData biome)
         {
             float result = 0;
@@ -262,6 +327,11 @@ namespace HexaMap
             return result;
         }
 
+        /// <summary>
+        /// Used for calculating the total multipliers of all SliceData given.
+        /// </summary>
+        /// <param name="biomes">SliceData array to calculate the combined multipliers from</param>
+        /// <returns>The combined multiplier value from all SliceData given</returns>
         public static float CombinedMultipliers(SeasonalData.HeightSlice.SliceData[] biomes)
         {
             float total = 0;
@@ -272,12 +342,11 @@ namespace HexaMap
             return total;
         }
 
-
         /// <summary>
-        /// Used for calculating the total multipliers of all seasons given.
+        /// Used for calculating the total multipliers of all SeasonalData given.
         /// </summary>
-        /// <param name="biomes">Seasons to calculate the combined multipliers from</param>
-        /// <returns>The combined multiplier value from all seasons given</returns>
+        /// <param name="biomes">SeasonalData array to calculate the combined multipliers from</param>
+        /// <returns>The combined multiplier value from all SeasonalData given</returns>
         public static float CombinedMultipliers(SeasonalData[] seasonals)
         {
             float total = 0;
@@ -288,6 +357,11 @@ namespace HexaMap
             return total;
         }
 
+        /// <summary>
+        /// Used for calculating the total multipliers of all HeightSlice given.
+        /// </summary>
+        /// <param name="biomes">HeightSlice array to calculate the combined multipliers from</param>
+        /// <returns>The combined multiplier value from all HeightSlice given</returns>
         public static float CombinedMultipliers(SeasonalData.HeightSlice[] slices)
         {
             float total = 0;
@@ -323,8 +397,8 @@ namespace HexaMap
         /// <summary>
         /// Returns the modifier of a tile in an array of biomes.
         /// </summary>
-        /// <param name="tile">The tile of which you want the threshold modifier</param>
-        /// <param name="biomes">The biome array to look in</param>
+        /// <param name="tile">The tile of which you want the threshold modifier.</param>
+        /// <param name="biomes">The biome array to look in.</param>
         /// <returns>The threshold modifer of this tile.</returns>
         public static float ThresholdModifier(Tile tile, BiomeData[] biomes)
         {
@@ -372,7 +446,15 @@ namespace HexaMap
             return null;
         }
 
-        public static SeasonalData.HeightSlice[] SlicesFromPerlin(NoiseCollection noiseCollection, Generators.PerlinGenerator generator, int x, int y)
+        /// <summary>
+        /// Returns the heightslices calculated from a grid position.
+        /// </summary>
+        /// <param name="noiseCollection">The noise collection you wish to use for your calculation.</param>
+        /// <param name="generator">The generator you wish to base the grid position on.</param>
+        /// <param name="x">The grid X position.</param>
+        /// <param name="y">The grid Y position.</param>
+        /// <returns>An array of heightslices.</returns>
+        public static SeasonalData.HeightSlice[] SlicesFromPerlin(NoiseCollection noiseCollection, PerlinGenerator generator, int x, int y)
         {
             float[,] seasonNoise = noiseCollection.SeasonalMap();
             float[,] heightNoise = noiseCollection.HeightMap();
@@ -434,7 +516,15 @@ namespace HexaMap
             return generator.seasons[result].heightSlices;
         }
 
-        public static int[] SliceFromPerlin(NoiseCollection noiseCollection, Generators.PerlinGenerator generator, int x, int y)
+        /// <summary>
+        /// Returns the slicedata calculated from a grid position.
+        /// </summary>
+        /// <param name="noiseCollection">The noise collection you wish to use for your calculation.</param>
+        /// <param name="generator">The generator you wish to base the grid position on.</param>
+        /// <param name="x">The grid X position.</param>
+        /// <param name="y">The grid Y position.</param>
+        /// <returns>An array : {SeasononalData index , HeightSlice index , SliceData index}.</returns>
+        public static int[] SliceFromPerlin(NoiseCollection noiseCollection, PerlinGenerator generator, int x, int y)
         {
             float[,] seasonNoise = noiseCollection.SeasonalMap();
             float[,] heightNoise = noiseCollection.HeightMap();
@@ -493,7 +583,5 @@ namespace HexaMap
 
             return null;
         }
-
-        
     }
 }
