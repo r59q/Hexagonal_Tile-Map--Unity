@@ -104,6 +104,7 @@ namespace HexaMap
 
             float offset;
 
+            int remainder = (int) index.y % 2;
             if (index.y % 2 == 0)
             {
                 offset = tileWidth / 2;
@@ -115,6 +116,9 @@ namespace HexaMap
 
             float x = ((tileWidth) + gap) * index.x;
             x += originalPos.x;
+            if (remainder == 1) {
+                x -= gap/2;
+            }
             x += offset;
             // we convert y to z, because we are goin on a horizontal plane
             float z = (((sideWidth / 2) * 3) + gap) * index.y;

@@ -144,7 +144,7 @@ MonoBehaviour:
   tileMapData:
     size: {x: 150, y: 150}
     sideWidth: 1
-    gap: 0
+    gap: 1
     heightOffset: 0
   maxHeight: 87.68
   randomness: 25.93
