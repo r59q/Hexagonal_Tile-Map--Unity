@@ -27,5 +27,14 @@ namespace HexaMap
             } 
             tile = tileContainer;
         }
+
+        /// <summary>
+        /// Used to peform actions before the map has been fully generated.
+        /// You might want to change the position of a gameobject under the generation,
+        /// because if you change it on the Start function and you do a NavMesh bake right
+        /// after the level generation, the position would not be taken into consideration
+        /// when generating the NavMesh.
+        /// </summary>
+        public virtual void BeforeStart() { }
     }
 }

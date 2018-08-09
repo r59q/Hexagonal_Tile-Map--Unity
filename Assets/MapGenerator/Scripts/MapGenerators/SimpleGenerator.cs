@@ -23,6 +23,15 @@ namespace HexaMap
                 }
             }
             OnInitialized();
+
+            // Run any TileBehaviour.BeforeStart()
+            foreach (var item in tileMap.Map())
+            {
+                foreach (var behaviour in item.GetGameObject().GetComponents<TileBehaviour>())
+                {
+                    behaviour.BeforeStart();
+                }
+            }
         }
 
         /// <summary>
