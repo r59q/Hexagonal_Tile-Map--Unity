@@ -70,7 +70,7 @@ Visit the [wiki](https://github.com/r59q/Hexagonal_Tile-Map--Unity/wiki) for mor
 
 ## Versioning
 
-For the most stable versions available, see the [tags on this repository](https://github.com/r59q/Hexagonal_Tile-Map--Unity/tags). 
+For the most stable versions available, see the [tags on this repository](https://github.com/r59q/Hexagonal_Tile-Map--Unity/releases). 
 
 ## Authors
 
